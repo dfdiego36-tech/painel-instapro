@@ -433,10 +433,6 @@
         return email?readAccounts().find(entry=>entry.email===email)||null:null;
       } catch { return null; }
     }
-    function hasLocalAccounts() {
-      try { return readAccounts().length>0; }
-      catch { return false; }
-    }
     function panelStorageKey() {
       return account?`${key}:panel:${account.email}`:key;
     }
@@ -1102,6 +1098,10 @@
     }
     function render() {
       const [route,id] = location.hash.slice(1).split('/');
+      if(!account&&route!=='login'&&route!=='cadastro'){
+        location.replace('#login');
+        return;
+      }
       const service=services.find(item=>item.id===id);
       let view;
       let title;
@@ -1110,16 +1110,12 @@
         return;
       }
       if(route==='boas-vindas'){
-        if(!account?.welcomePending){go(account?'painel':'login');return;}
+        if(!account.welcomePending){go('painel');return;}
         document.body.dataset.view=route;
         header.hidden=true;
         footer.hidden=true;
         main.innerHTML=welcomePage();
         document.title='Bienvenida | Insta Pro';
-        return;
-      }
-      if(!account&&hasLocalAccounts()&&route!=='login'&&route!=='cadastro'){
-        go('login');
         return;
       }
       if(route==='login'||route==='cadastro'){
