@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panel interactivo local de Insta Pro.">
+  <meta name="color-scheme" content="dark">
+  <title>Insta Pro</title>
+  <style>
+    :root{color-scheme:dark;--bg:#08090b;--panel:#101315;--panel-2:#16181f;--line:#24262c;--text:#f6f5f8;--muted:#aaa9b2;--violet:#a889ff;--green:#52db9a;--red:#ff7186;--radius:13px}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.45}button,input{font:inherit}button,a,input,summary{-webkit-tap-highlight-color:transparent}button,a,summary{cursor:pointer}button{color:inherit}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--violet);outline-offset:4px}button:disabled{opacity:.5;cursor:default}h1,h2,h3,h4,p{margin:0}h2{font-size:19px}h3{font-size:16px}svg{width:1.25em;height:1.25em;display:inline-block;vertical-align:middle;flex:none}ul{margin:0;padding-left:1.15em}img{max-width:100%}
+    .matrix{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 50% -25%,#1d1634 0,transparent 50%),linear-gradient(180deg,#090a0d,#070809 75%)}.matrix span{position:absolute;font:11px monospace;color:#8862d5;opacity:.19}
+    header{background:#0e1015eb;border-bottom:1px solid #1e1d29}.head,.container,.foot{width:min(100% - 32px,1240px);margin-inline:auto}.head{display:flex;align-items:center;justify-content:space-between;min-height:60px;padding:0 24px;background:linear-gradient(90deg,transparent,#191729aa,transparent);position:relative;gap:12px}.brand{display:inline-flex;align-items:center;gap:3px;font-weight:900;font-size:21px;letter-spacing:-.6px;white-space:nowrap}.brand svg{color:#c3aaff}.brand strong{color:#8963e6}.head-actions,.inline,.row{display:flex;align-items:center;gap:10px}.head-actions{justify-content:flex-end}.icon-btn{border:0;background:transparent;border-radius:9px;width:38px;height:38px;display:inline-grid;place-items:center;font-size:19px}.icon-btn:hover{background:#ffffff16}.page-title{font-size:19px}.top-balance{font-weight:750;color:#e5d4ff;white-space:nowrap}.menu{position:absolute;top:calc(100% + 5px);right:20px;z-index:5;min-width:210px;padding:7px;background:#16151d;border:1px solid #342944;border-radius:12px;box-shadow:0 18px 42px #0008}.menu a,.menu button{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border:0;background:none;border-radius:7px;text-align:left}.menu a:hover,.menu button:hover{background:#272133}[hidden]{display:none!important}
+    .container{padding-block:24px 55px;min-height:64vh}.hero{padding:12px;border:1px solid #896ae485;border-radius:16px;background:radial-gradient(circle at 90% 90%,#b071e349,transparent 55%),linear-gradient(120deg,#372d8c,#6734a0);box-shadow:inset 0 -7px #160e4247;position:relative;overflow:hidden}.hero h1{font-size:clamp(24px,4vw,29px);font-weight:850;margin:5px 0}.hero p,.hero .welcome{color:#e6dcfb}.welcome{font-size:13px;font-weight:700}.hero-level{position:absolute;top:12px;right:12px;text-align:center;background:#fff2;border:1px solid #ffffff14;border-radius:11px;padding:6px 13px;font-weight:850;font-size:18px}.hero-level small{display:block;font-size:9px;font-weight:500;line-height:1.2}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.stat{padding:8px 10px;border:1px solid #ffffff10;background:#ffffff12;border-radius:10px;position:relative;min-height:58px}.stat-label{font-size:11px;color:#f1e9ff}.stat strong{font-size:20px;display:block;margin-top:2px}.plus{position:absolute;right:7px;top:6px;width:25px;height:25px;border-radius:100%;border:0;background:#fff2}.plus:hover{background:#fff4}.xp-count{font-weight:800;font-size:12px;margin:2px 0 4px}.bar{width:100%;height:6px;background:#ffffff19;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#6244dd,#bd66f3)}.hero .bar span{background:#eee4ff}
+    .section-title{display:flex;align-items:center;gap:8px;margin:20px 0 12px;font-size:17px}.section-title svg{color:var(--violet)}.contracts{display:grid;gap:8px}.contract,.card,.panel{background:linear-gradient(115deg,#111416,#0e1113);border:1px solid #1c2023;border-radius:var(--radius)}.contract{display:block;width:100%;padding:11px 12px;text-align:left}.contract .row{justify-content:space-between}.contract b,.card h3{font-size:14px}.contract small{display:block;color:var(--muted);font-size:11px}.contract .bar{margin-top:9px}.contract:hover,.card:hover{border-color:#6b4e95;background:#16151f}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.card{display:flex;flex-direction:column;align-items:flex-start;position:relative;text-align:left;min-height:163px;padding:12px;transition:background .15s,border-color .15s,transform .15s}.card:active,.contract:active{transform:scale(.985)}.service-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:11px;background:color-mix(in srgb,var(--accent) 12%,#0c1114);color:var(--accent);font-size:22px;margin-bottom:9px}.card p{font-size:12px;line-height:1.35;color:var(--muted);margin:3px 0 9px}.badge{display:inline-flex;align-items:center;gap:4px;line-height:1.2;padding:5px 7px;border-radius:7px;white-space:nowrap;font-size:10px;font-weight:750;background:#2c2040;color:#c3a0ff}.card .badge{margin-top:auto}.badge.ok{background:#123224;color:#76e5a7}.badge.active{background:#341d2b;color:#ff9bac}.badge.cost{background:color-mix(in srgb,var(--accent,var(--violet)) 12%,#111417);color:var(--accent,var(--violet));border:1px solid color-mix(in srgb,var(--accent,var(--violet)) 22%,#141719)}
+    footer{border-top:1px solid #201e2b;background:#0c0d12}.foot{padding:28px 0 16px;display:grid;grid-template-columns:1.65fr 1fr 1fr;gap:24px}.foot p,.foot a,.foot button{font-size:13px;color:var(--muted)}.foot p{margin-top:8px}.foot h4{margin-bottom:8px}.foot ul{padding:0;list-style:none}.foot li+li{margin-top:6px}.text-btn{background:none;border:0;padding:0;text-align:left;color:var(--violet)}.foot a:hover,.foot button:hover,.text-btn:hover{text-decoration:underline}.copyright{grid-column:1/-1;border-top:1px solid #211e2a;padding-top:10px;color:var(--muted);font-size:12px}
+    .view{max-width:1000px;margin:auto}.narrow{max-width:640px;margin:auto}.panel{padding:19px}.panel+.panel{margin-top:14px}.intro{text-align:center;padding:14px 0 20px}.intro h1,.intro h2{font-size:clamp(25px,5vw,38px);line-height:1.12;margin:8px 0}.muted,.intro p,.panel p{color:var(--muted)}.panel p+p{margin-top:8px}.space{margin-top:16px}.stack{display:grid;gap:12px}.spread{justify-content:space-between}.center{text-align:center}.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:16px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:41px;padding:9px 14px;border:1px solid transparent;border-radius:9px;background:linear-gradient(105deg,#6445d4,#9749cb);font-weight:750;text-align:center}.btn:hover{filter:brightness(1.15)}.btn.secondary{background:#202027;border-color:#303039}.btn.danger{color:#ffb4bf;background:#381c29;border-color:#653144}.btn.full{width:100%}.list-rows{display:grid;gap:8px;margin-top:12px}.list-rows>div{padding:11px 12px;border-radius:8px;background:#ffffff07}.packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.pack{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:17px;border:1px solid #3b2a57;border-radius:14px;background:linear-gradient(140deg,#1c1530,#11131a);position:relative}.pack.highlight{border-color:#a16cff;box-shadow:0 0 20px #9961ff23}.pack .btn{margin-top:auto}.pack-price{font-size:32px;font-weight:850;color:#fbf7ff;line-height:1.15}.old{font-size:13px;color:var(--muted)}.pack ul{color:#c7c1d1;font-size:12px;padding:0;list-style:none;margin-bottom:5px}.pack li+li{margin-top:4px}.pack .badge{align-self:start}.credit-count{font-size:19px;font-weight:800;color:#dec9ff}.benefits{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;color:var(--muted);margin-top:21px;font-size:12px}.field{display:grid;gap:6px;margin-top:12px;color:#e5dfed}.field input{width:100%;min-height:41px;background:#0b0c11;color:var(--text);padding:9px 11px;border:1px solid #373145;border-radius:8px}.field input::placeholder{color:#85808e}.map{height:250px;position:relative;overflow:hidden;border-radius:10px;margin-top:12px;background:#202f29}.map svg{width:100%;height:100%;display:block}.map-label{position:absolute;bottom:10px;left:10px;color:#fff;background:#122019e6;padding:5px 8px;border-radius:6px;font-size:11px}.faq details{border-bottom:1px solid #2a2833;padding:11px 0}.faq details:last-child{border-bottom:0}.faq summary{font-weight:700}.faq details p{margin-top:6px}.empty{color:var(--muted);padding:14px;text-align:center;border:1px dashed var(--line);border-radius:var(--radius)}
+    dialog{border:1px solid #373043;border-radius:15px;color:var(--text);background:#17151e;box-shadow:0 20px 90px #000a;width:min(440px,calc(100% - 28px));padding:21px;margin:auto}dialog::backdrop{background:#050409bb;backdrop-filter:blur(3px)}dialog h2{margin:0 34px 9px 0}dialog p{color:var(--muted);margin-top:8px}dialog .close{position:absolute;right:10px;top:10px}.toast{position:fixed;z-index:10;right:16px;bottom:16px;max-width:min(420px,calc(100vw - 32px));border:1px solid #55417d;border-radius:9px;background:#231b37;padding:11px 15px;box-shadow:0 8px 24px #0009}
+    @media(max-width:900px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.packs{grid-template-columns:repeat(2,minmax(0,1fr))}.head{padding-inline:10px}}
+    @media(max-width:650px){.head,.container,.foot{width:calc(100% - 24px)}.head{padding-inline:0;min-height:59px}.container{padding-top:16px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{min-height:152px;padding:11px}.hero h1{padding-right:64px}.hero-level{padding:5px 8px}.foot{grid-template-columns:1fr 1fr;gap:17px}.foot>div:first-child{grid-column:1/-1}.packs{gap:8px}.pack{padding:11px}.pack-price{font-size:24px}.pack .badge{font-size:8px}.panel{padding:14px}.brand{font-size:18px}.head-actions{gap:5px}.icon-btn{width:34px;height:34px}.section-title{margin-top:17px}}
+    @media(max-width:350px){.packs{grid-template-columns:1fr}.card{min-height:165px}.hero p{font-size:12px}}
+  </style>
+  <style>
+    .city-tools{margin-top:12px;display:grid;gap:7px}.city-tools .city-choice{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.city-choice label{font-size:12px;font-weight:750}.city-choice select{flex:1;min-width:145px;min-height:38px;padding:6px 9px;border:1px solid #38313f;border-radius:8px;color:var(--text);background:#19171d}.city-tools .btn{min-height:36px;font-size:12px}.city-tools p{font-size:11px;line-height:1.45}.city-tools a,.map-caption a{color:#c48bff}.city-map-preview iframe{pointer-events:none}.map-zoom-lock{position:absolute;right:9px;top:9px;width:32px;height:62px;border:1px solid #b5b0bd;border-radius:5px;color:#21162e;background:#fbf9ff;display:grid;place-content:center;gap:2px;font-size:20px;font-weight:850;line-height:1;box-shadow:0 1px 6px #0003}.map-zoom-lock small{font-size:12px}.map-unlock{margin-top:12px;display:grid;gap:8px;padding:12px;border:1px solid #4a2b61;border-radius:10px;background:#1c1526}.map-unlock p{font-size:12px}.map-unlock .btn{min-height:42px}.map-detail-label{color:#75ddb6;font-weight:800}.city-map .map-caption a{white-space:normal}.city-map .map-points button{overflow-wrap:anywhere}
+  </style>
+  <style>
+    body[data-view="redes"]:has(.net-report){background:#000}body:has(.net-report) .matrix,body:has(.net-report) footer{display:none}
+    body:has(.net-report) .head.detail{max-width:922px;min-height:47px;padding-inline:22px}body:has(.net-report) .head.detail .page-title{font-size:13px;font-weight:900}body:has(.net-report) .head.detail .top-balance{padding:4px 10px;font-size:10px}body:has(.net-report) .container{padding-block:19px 80px}body:has(.net-report) .head.detail .page-title strong{color:#aa55fb}
+    .net-report{max-width:692px;margin-inline:auto;display:grid;gap:18px;font-size:11px;line-height:1.4}.net-report h2{font-size:15px;font-weight:900;line-height:1.25}.net-report h3{font-size:13px;font-weight:850}.net-report p{margin:0}.net-report .report-muted{color:#a3aebc;font-size:10px}.report-panel{background:#0d1112;border:1px solid #322244;border-radius:13px;padding:13px}.report-panel.search-data{border-radius:20px;padding:16px}.report-heading{display:flex;align-items:center;gap:12px}.report-heading>div{min-width:0}.report-heading .report-symbol{display:grid;place-items:center;width:39px;height:39px;background:#241a34;color:#b85aff;border-radius:50%;font-size:16px;flex:none}
+    .report-fields{display:grid;gap:8px;margin-top:12px}.report-field,.report-banner,.report-offer,.report-price{background:#171521;border:1px solid #3a274d;border-radius:10px}.report-field{display:flex;align-items:center;gap:10px;min-height:53px;padding:9px 10px}.report-field svg{font-size:13px;color:var(--field-color,#b662fb)}.report-field span,.report-field b{display:block}.report-field span{color:#a3acbb;font-size:10px}.report-field b{font-size:11px;margin-top:1px}
+    .report-counts,.report-grid{display:grid;gap:9px}.report-counts{grid-template-columns:repeat(4,minmax(0,1fr))}.report-count{background:var(--count-bg);border:1px solid var(--count-border);border-radius:10px;text-align:center;padding:13px 4px;min-height:79px;display:grid;align-content:center;gap:3px}.report-count strong{font-size:22px;color:var(--count-color);font-weight:900}.report-count span{color:#b4c0cf;font-size:10px}
+    .report-section>h2,.report-section>h3{margin:1px 0 11px}.report-banner{padding:10px 11px;margin-bottom:12px;color:#e4dcea;background:color-mix(in srgb,var(--theme,#9c55eb) 9%,#050506);border-color:color-mix(in srgb,var(--theme,#9c55eb) 31%,#100d14)}.report-panel.rose{--theme:#eb418e;border-color:#462235}.report-panel.rose .report-offer{background:#20151d;border-color:#4b2540}.report-panel.violet{--theme:#a450f6}.report-panel.violet .report-banner{background:#171521}
+    .report-grid.social,.report-grid.adult{grid-template-columns:repeat(3,minmax(0,1fr))}.report-grid.dating{grid-template-columns:repeat(2,minmax(0,1fr))}.report-grid.missing{grid-template-columns:repeat(4,minmax(0,1fr))}.report-app{min-height:60px;display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #202527;border-radius:10px;background:#0d1112;min-width:0}.report-panel .report-app{background:#171b1c;border-color:#282b2d;min-height:65px}.report-app b{display:block;font-size:12px;overflow-wrap:anywhere}.report-app small{display:block;color:#1dcb9b;font-size:10px}.report-app small[data-status="Detectado"]{color:#f9b52c}.report-mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;color:var(--mark-color,#fff);background:var(--mark-bg);font-size:18px;font-weight:900;letter-spacing:-.04em;line-height:1}.report-mark svg{width:19px;height:19px}.report-grid.adult .report-app{min-height:108px;flex-direction:column;justify-content:center;gap:4px;text-align:center}.report-grid.adult .report-mark{width:48px;height:48px;font-size:26px}.report-grid.missing .report-app{min-height:81px;flex-direction:column;justify-content:center;gap:4px;text-align:center;background:#0b0b0c;border-color:#1e1d21;color:#aeb8c4}.report-grid.missing .report-app b,.report-grid.missing .report-app small{font-size:10px;color:#8792a0}.report-grid.missing .report-mark{width:30px;height:30px;font-size:14px}.report-grid.missing .report-app.more{background:#130d1b;color:#b95dff;border-color:#33204a;display:grid;place-content:center;font-weight:850}
+    .report-offer{padding:9px 10px;text-align:center;margin-top:12px;display:grid;gap:5px}.report-offer p{color:#a3aebc;font-size:10px}.report-btn{border:0;border-radius:9px;min-height:30px;padding:6px 10px;font-size:11px;font-weight:850;color:#fff;background:linear-gradient(100deg,#a652ef,#6155ed);box-shadow:0 4px 12px #9852ea35}.report-btn.rose{background:linear-gradient(100deg,#ea3b94,#db212a);box-shadow:0 4px 12px #e42d6a35}.report-btn.ashley{background:linear-gradient(100deg,#eb2c76,#ba205e);box-shadow:0 4px 12px #d4266835}.report-btn:disabled{background:#162824;color:#83dcb7;box-shadow:none;opacity:1}.report-ashley .report-heading{margin-bottom:9px}.report-ashley .report-mark{width:42px;height:42px}.report-ashley .report-banner{margin-bottom:9px}.report-summary{box-shadow:0 0 18px #a044e536;text-align:center;display:grid;gap:8px}.report-summary .report-symbol{display:grid;place-items:center;margin-inline:auto;width:44px;height:44px;font-size:19px;border-radius:13px;background:linear-gradient(130deg,#ab59f5,#4d2fb2);box-shadow:0 0 18px #8a4ada59}.report-summary .report-price{margin-top:4px;display:grid;padding:10px;gap:3px}.report-price del{color:#9ba6b4;font-size:10px}.report-price strong{font-size:29px;font-weight:900;line-height:1.2}.report-price .report-savings{padding:5px 8px;margin-top:5px;border-radius:6px;background:#ffc221;color:#4f2a00;font-size:10px;font-weight:850}.report-summary .report-btn{min-height:38px;margin-top:4px;background:linear-gradient(100deg,#ae56f0,#4931b2)}.report-summary .report-btn:disabled{background:#162824}.report-remove{margin-top:10px;background:#1a0708;border:1px solid #4c161a;color:#ff504f;min-height:38px;border-radius:10px;font-size:11px}.report-unlocked{color:#84deb9;font-size:11px}.report-more-list{display:grid;grid-template-columns:repeat(2,1fr);gap:5px 12px;list-style:none;padding:0;margin:12px 0;color:#c8bdcf}.report-preview-link{display:block;text-align:center;margin-top:14px;font-size:12px;color:#c58df8;text-decoration:underline}
+    @media(max-width:550px){.net-report{gap:14px}.report-grid.social{grid-template-columns:repeat(2,minmax(0,1fr))}.report-grid.missing{grid-template-columns:repeat(3,minmax(0,1fr))}.report-count strong{font-size:19px}.report-count span{font-size:9px}.report-app{padding-inline:7px}.report-app b{font-size:11px}}
+    @media(max-width:350px){.report-grid.adult{grid-template-columns:1fr}.report-grid.missing{grid-template-columns:repeat(2,minmax(0,1fr))}.report-counts{gap:4px}}
+    .net-report .report-banner{margin-bottom:12px}.net-report .report-ashley .report-banner{margin-bottom:9px}.report-btn.full{width:100%}.report-btn svg,.report-remove svg{margin-right:4px}
+    .report-site-link{color:inherit;text-decoration:none;cursor:pointer}.report-site-link:hover{border-color:#9957d5}.report-site-link:hover b,.report-site-link:hover h2{text-decoration:underline}.report-site-link:focus-visible{outline:2px solid #b966ff;outline-offset:2px}.report-ashley .report-site-link{width:fit-content;border-radius:9px}
+  </style>
+  <style>
+    body[data-view="detetive"] {background:#040505}
+    body[data-view="detetive"] .matrix {display:none}
+    .head.detail {display:grid;grid-template-columns:1fr auto 1fr}
+    .head.detail .page-title {text-align:center;font-weight:850}
+    .head.detail .head-actions {justify-self:end}
+    .investigation-view {max-width:600px;margin:auto}
+    .analysis-form {text-align:center;padding:24px}
+    .analysis-form .service-icon,.profile-avatar {margin:0 auto 12px}
+    .analysis-form .field {text-align:left}
+    .analysis-form .btn {margin-top:14px}
+    .analysis-form .validation {color:var(--red);text-align:left}
+    .profile-avatar {width:62px;height:62px;display:grid;place-items:center;border-radius:50%;background:#2c1c36;color:#f285b5;font-size:28px}
+    .analysis-progress {display:grid;gap:10px;margin-top:17px;text-align:left}
+    .analysis-progress small {color:var(--muted)}
+    .analysis-progress .bar {height:8px}
+    .map {height:320px;background:#d9dfd8}
+    .map iframe {display:block;width:100%;height:100%;border:0;background:#d9dfd8}
+    .map-caption {font-size:12px;margin-top:10px}
+    .map-caption a {color:var(--violet);text-decoration:underline}
+    .map-points button {width:100%;text-align:left;padding:11px 12px;color:var(--text);background:#171a1d;border:1px solid #272b2f;border-radius:8px}
+    .map-points button[aria-pressed="true"] {border-color:#7752a8;background:#261c34}
+    .detective {max-width:568px;margin:0 auto;display:grid;gap:24px}
+    .detective .panel {margin:0;padding:24px;border-radius:22px;background:#101315}
+    .detective h2 {font-size:24px;font-weight:850;letter-spacing:-.025em}
+    .detective h3 {font-size:19px;font-weight:820}
+    .detective .det-hero {text-align:center;padding:30px 30px 28px;border-color:#302446;box-shadow:0 0 24px #9665e52a}
+    .det-hero h2 {font-size:clamp(23px,6vw,30px);line-height:1.15;margin:20px 0 10px}
+    .det-icon {display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;background:#24282b;border:1px solid #ffffff08;border-radius:15px;font-size:23px}
+    .det-hero .det-icon {width:80px;height:80px;font-size:34px;border-radius:20px}
+    .det-chips {display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:18px 0}
+    .det-ribbon {margin-top:14px;padding:12px;text-align:center;border-radius:12px;background:#ffffff0e;border:1px solid #ffffff10;color:#e9e2f1;font-size:13px;font-weight:700}
+    .det-hero .det-ribbon {border-radius:999px;padding:16px 12px;background:linear-gradient(110deg,#1b2023,#31363a)}
+    .det-steps {display:grid;gap:16px;list-style:none;padding:0;margin-top:18px}
+    .det-steps li {display:grid;grid-template-columns:40px 1fr;gap:13px;align-items:start}
+    .det-steps li>span {display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#252a2e;color:#f0edf6;font-weight:800}
+    .det-steps li p {font-size:13px;margin-top:4px;line-height:1.55}
+    .det-section {display:grid;gap:15px}
+    .det-section-title {text-align:center;margin:12px 0 1px}
+    .det-section-title p {font-size:13px;margin-top:6px;color:var(--muted)}
+    body[data-view="detetive"] header {position:sticky;top:0;z-index:8}
+    body[data-view="detetive"] .page-title strong,.det-practice-title svg {color:#ad55f3}
+    .det-phone {position:relative;display:flex;flex-direction:column;width:min(100%,380px);aspect-ratio:1/2;margin:auto;border:9px solid #1d2939;border-radius:40px;overflow:hidden;background:#eae4dd;color:#17231d;box-shadow:0 0 0 3px #111723,inset 0 0 0 2px #263548}
+    .det-phone::before {content:"";position:absolute;z-index:2;top:0;left:50%;transform:translateX(-50%);width:37%;height:15px;border-radius:0 0 18px 18px;background:#121e2a;pointer-events:none}
+    .det-phone-head {display:flex;flex:none;align-items:center;gap:12px;padding:14px 16px;background:#0d6652;color:#fff;min-height:72px}
+    .det-phone-head strong {display:block;font-size:15px}
+    .det-phone-head small {display:block;margin-top:1px;color:#c6edc6;font-size:11px}
+    .det-contact {display:grid;place-items:center;width:43px;height:43px;flex:none;border-radius:50%;background:#e9e6f3;color:#683d88;font-size:19px}
+    .det-contact svg {fill:currentColor;stroke-width:0}
+    .det-chat {flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:11px 12px;background:#eae4dd;scrollbar-color:#8a8c8d #f8f8f7;scrollbar-width:thin}
+    .det-message-list {display:flex;flex-direction:column;gap:8px}
+    .det-bubble {width:fit-content;max-width:75%;padding:9px 12px 7px;overflow-wrap:anywhere;border-radius:12px;background:#fff;color:#19231f;font-size:13px;line-height:1.55;box-shadow:0 3px 7px #30251b24;align-self:flex-start;animation:det-bubble-in .18s ease-out both}
+    .det-bubble.outgoing {align-self:flex-end;background:#defcc7}
+    .det-bubble time {display:block;color:#697068;font-size:9px;text-align:right;line-height:1.3;margin-top:4px}
+    .det-bubble strong {font-weight:850}
+    .det-typing {display:flex;gap:5px;align-items:center;padding:11px 14px;min-height:32px}
+    .det-typing i {display:block;width:6px;height:6px;border-radius:50%;background:#65736e;animation:det-typing-pulse .9s ease-in-out infinite}
+    .det-typing i:nth-child(2) {animation-delay:.14s}.det-typing i:nth-child(3) {animation-delay:.28s}
+    .det-chat-result {align-self:center;text-align:center;padding:10px 13px;border-radius:10px;margin-top:1px;background:linear-gradient(115deg,#df223b,#e96720);color:#fff;box-shadow:0 4px 10px #8b2e1b38;animation:det-bubble-in .22s ease-out both}
+    .det-chat-result strong {display:block;font-size:13px;font-weight:900;letter-spacing:.015em}.det-chat-result small {font-size:11px}
+    .det-play {position:absolute;inset:0;z-index:1;display:grid;place-content:center;padding:12px;background:#35392e69;backdrop-filter:blur(2px);text-align:center;color:white}
+    .det-play .btn {background:linear-gradient(100deg,#fb7a20,#f52c49);border-color:#ff9f62;padding:10px 17px;border-radius:15px;font-size:13px;font-weight:850;box-shadow:0 5px 18px #63221842}
+    .det-play small {display:block;margin-top:7px;font-size:11px;font-weight:650}
+    .det-practice-note {margin-top:0;border-color:#45265c;background:#170e21;font-weight:550}.det-practice-note b{color:#bc6cf6}
+    @keyframes det-typing-pulse {0%,65%,100%{transform:translateY(0);opacity:.57}30%{transform:translateY(-3px);opacity:1}}
+    @keyframes det-bubble-in {from{transform:translateY(3px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @media(prefers-reduced-motion:reduce){.det-bubble,.det-chat-result,.det-typing i{animation:none}}
+    .detective .det-plan {position:relative;padding:24px;background:#111315;border-color:#303339}
+    .det-plan .row {align-items:flex-start}
+    .det-plan .price {text-align:right;font-weight:900;font-size:29px;line-height:1.15;color:var(--plan-color,#f2f4f7);white-space:nowrap}
+    .det-plan .price small {display:block;font-size:11px;font-weight:450;color:var(--muted);margin-top:5px}
+    .det-plan .det-features {margin:18px 0 20px;padding:0;list-style:none;display:grid;gap:9px;font-size:13px;color:#d2ccd7}
+    .det-features li {display:flex;gap:9px;align-items:flex-start}
+    .det-features svg {color:var(--plan-color,#a4a8ae);margin-top:2px}
+    .det-plan .btn {min-height:57px;background:#292d30;border-color:#43464a}
+    .det-plan .plan-tag {position:absolute;top:-9px;right:-3px;background:var(--plan-color);color:#120c1c}
+    .detective .det-plan.advanced {--plan-color:#bb70ff;background:#0d0917;border-color:#503179;box-shadow:0 0 20px #8745d634}
+    .det-plan.advanced .btn {background:linear-gradient(100deg,#a150ee,#4f38bd);border-color:#8a49d4}
+    .detective .det-plan.master {--plan-color:#efc567;background:#1a140a;border-color:#634f2b;box-shadow:0 0 20px #d1a13b34}
+    .det-plan.master h3 {color:var(--plan-color)}
+    .det-plan.master .btn {background:linear-gradient(100deg,#e8b948,#b98c45);border-color:#ccaa62;color:#1a1208}
+    .det-included {display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+    .det-included article {padding:17px 7px;border:1px solid #222528;border-radius:12px;display:grid;align-content:start;gap:5px}
+    .det-included small {color:var(--muted)}
+    .detective .det-green {background:linear-gradient(135deg,#071c16,#050f0d);border-color:#174234}
+    .det-green .det-steps li>span,.det-green .det-icon {color:#47e0a6;background:#163b30}
+    .det-faq details {padding:0;border:1px solid #252629;border-radius:12px;background:#101112}
+    .det-faq summary {padding:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none}
+    .det-faq summary::-webkit-details-marker {display:none}
+    .det-faq summary::after {content:"+";color:var(--violet);font-size:18px}
+    .det-faq details[open] summary::after {content:"−"}
+    .det-faq details p {padding:0 16px 16px;color:var(--muted)}
+    .det-review {text-align:center;padding:14px 0 22px}
+    .det-review blockquote {margin:16px auto 6px;max-width:37ch;font-style:italic}
+    .det-review .rating {color:#eac865;letter-spacing:2px}
+    .det-dots {display:flex;gap:5px;justify-content:center;margin-top:18px}
+    .det-dots button {border:0;padding:0;width:18px;height:22px;background:none;display:grid;place-items:center}
+    .det-dots button::before {content:"";width:8px;height:8px;border-radius:99px;background:#51505a}
+    .det-dots button[aria-current="true"]::before {width:18px;background:#a653ed}
+    @media(max-width:650px){.head.detail .page-title{font-size:16px}.detective .panel{padding:17px}.det-phone{border-width:8px;border-radius:35px}.det-steps li{gap:9px}.det-included{gap:6px;font-size:12px}.det-included article{padding:12px 5px}}
+    body[data-view="instagram"],body[data-view="whatsapp"],body[data-view="facebook"],body[data-view="localizacao"],body[data-view="sms"],body[data-view="chamadas"],body[data-view="camera"],body[data-view="redes"]{background:#050606}
+    body:has(.tracking) .matrix,body:has(.service-entry) .matrix{display:none}
+    .head.detail{max-width:1152px}.head.detail .page-title{text-transform:uppercase;font-size:16px}.head.detail .page-title svg{margin-right:5px;color:#b7a2f6}.head.detail .top-balance{padding:5px 11px;background:#20182f;border:1px solid #493063;border-radius:99px;font-size:12px}
+    .tracking,.service-entry{max-width:648px;margin:auto;--purple:#ad53f5;--track-color:#a050eb}.tracking.compact,.service-entry.compact{max-width:568px}
+    .tracking .panel,.service-entry .panel{background:#0d1112;border:1px solid #202527;border-radius:13px;padding:20px}.tracking.compact .panel,.service-entry.compact .panel{border-radius:24px}
+    .service-entry .panel,.tracking .roomy{padding:clamp(18px,4vw,32px)}.tracking.warm .panel{border-color:#47291f}.tracking.roomy>.panel{box-shadow:0 0 24px #a352e519}
+    .service-heading{display:flex;align-items:center;gap:12px}.service-heading .service-icon{margin:0;width:54px;height:54px;flex:none}.service-heading h2{font-size:17px;font-weight:850;line-height:1.2;overflow-wrap:anywhere}.service-heading p{font-size:12px;margin-top:4px;color:#a5b4c3}.service-entry .service-heading h2{font-size:20px}.service-entry.location-entry .service-heading h2{font-size:clamp(21px,5vw,28px)}
+    .entry-tip,.entry-info{border:1px solid color-mix(in srgb,var(--accent) 32%,#201a2b);border-radius:12px;background:color-mix(in srgb,var(--accent) 8%,#101117);margin:24px 0;padding:12px;font-size:13px}.entry-tip strong,.entry-info strong{color:var(--accent)}.entry-info{padding:20px}.entry-info p{margin:8px 0 18px}.entry-info p:last-child{margin-bottom:0}
+    .entry-label{display:block;font-weight:750;margin-top:24px;margin-bottom:9px}.entry-input{min-height:55px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid color-mix(in srgb,var(--accent) 37%,#272036);border-radius:12px}.entry-input:focus-within{outline:1px solid var(--accent)}.entry-input span{color:var(--accent);font-weight:800}.entry-input input{width:100%;border:0;background:none;color:var(--text);padding:13px 0;min-width:0}.entry-input input:focus{outline:none}.entry-input input::placeholder{color:#a4b2c4}
+    .entry-footnote{text-align:center;margin-top:24px;font-size:12px}.entry-features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}.entry-features article{border:1px solid color-mix(in srgb,var(--accent) 22%,#10181b);background:color-mix(in srgb,var(--accent) 6%,#0d1414);padding:12px;border-radius:12px;font-size:12px}.entry-features b{color:var(--accent);font-size:11px}.entry-features p{margin-top:5px}.service-entry .validation{color:var(--red);margin-top:8px}.service-entry .action-primary{margin-top:24px}
+    .action-primary{min-height:48px;background:linear-gradient(105deg,#a951ed,#4b33b5);border:0;box-shadow:0 8px 22px #8745d950;border-radius:12px}.action-primary:disabled{background:#202425;box-shadow:none;color:#aaa;opacity:1}.tracking .service-heading{justify-content:space-between}.tracking .service-heading>div{min-width:0}.track-percent{padding:7px 12px;background:color-mix(in srgb,var(--percent-color,var(--accent)) 14%,#121215);color:var(--percent-color,var(--accent));border-radius:99px;font-size:12px;font-weight:850;min-width:49px;text-align:center}
+    .track-meter{height:12px;margin:17px 0 19px;background:#1f2324}.track-meter span{background:linear-gradient(90deg,var(--track-color),color-mix(in srgb,var(--track-color) 74%,white));box-shadow:0 0 10px color-mix(in srgb,var(--track-color) 50%,transparent)}.tracking.warm .track-meter{height:8px}
+    .track-steps{list-style:none;padding:0;display:grid;gap:10px}.track-step{display:flex;align-items:center;gap:11px;min-height:43px;padding:8px 12px;border-left:3px solid #151a1b;border-radius:12px;font-size:13px;font-weight:700;color:#78828b}.track-step.current,.track-step.done{border-color:var(--step-color,var(--purple));background:color-mix(in srgb,var(--step-color,var(--purple)) 9%,#0f1016)}.track-step.current{color:#fff}.track-step.done{color:var(--step-color,var(--purple))}.step-indicator{width:17px;height:17px;flex:none;border:2px solid #343c40;border-radius:50%;display:grid;place-items:center;color:var(--step-color,var(--purple))}.step-indicator svg{width:17px;height:17px}.track-step.current .step-indicator{border-color:currentColor;border-right-color:transparent;animation:track-spin 1s linear infinite}.track-step.done .step-indicator{border:0}.tracking.warm .track-step{min-height:36px}
+    .track-notice{padding:13px 15px;border-left:4px solid var(--notice-color,var(--purple));background:color-mix(in srgb,var(--notice-color,var(--purple)) 9%,#0f1015);border-radius:10px;margin-top:13px;font-size:13px}.track-notice b{display:block}.track-notice p{color:inherit;margin-top:3px}.tracking .cancel-track{min-height:45px;margin-top:16px;border:1px solid #661c1c;border-radius:12px;background:#221414;color:#ff4c4c}.tracking .accelerate{margin-top:16px;padding:12px 16px;border:1px solid #482563;border-radius:16px;background:#160e1e;text-align:center}.accelerate p{font-size:12px;color:#a8b5c6;margin:4px 0 9px}.tracking .inline-boost{margin-top:18px}
+    #dialog.credit-alert,#dialog.level-prize{width:min(400px,calc(100% - 32px));padding:30px 32px;text-align:center;border-radius:24px;background:#19181b;border-color:#454149}#dialog.credit-alert::backdrop{backdrop-filter:blur(10px)}.credit-alert h2,.level-prize h2{margin:13px 0 12px;font-size:23px;font-weight:900}.credit-alert .credit-icon,.level-prize .prize-icon{display:grid;place-items:center;width:64px;height:64px;margin:auto;border-radius:50%;background:#312340;color:#b355ff;font-size:26px}.credit-alert .action-primary{margin-top:24px}.credit-alert .credit-return{background:none;border:0;padding:14px 12px;margin-top:11px;color:#b0aab7;font-weight:700}
+    #dialog.level-prize{width:min(448px,calc(100% - 32px));background:#0e1113}.level-prize .prize-icon{background:linear-gradient(120deg,#4b35b6,#a052ee);color:white;box-shadow:0 0 30px #9b4df560}.level-prize h2{color:#ae60fa;font-size:30px}.level-prize .level-label{display:inline-block;border-radius:14px;padding:6px 16px;background:#633bd0;color:white;font-size:26px;font-weight:900;margin:8px 0}.prize-box{display:grid;gap:8px;border:1px solid #553477;border-radius:16px;background:#1c1629;padding:16px;margin:12px 0 20px}.prize-box strong{font-size:38px;color:#21d79a;line-height:1.1}.toast[data-kind="spend"]{top:80px;right:50%;bottom:auto;transform:translateX(50%);background:#2a2040;text-align:center;white-space:pre-line}
+    @keyframes track-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.track-step.current .step-indicator{animation:none}}@media(max-width:440px){.entry-features{grid-template-columns:1fr}.head.detail .page-title{font-size:13px}.tracking .panel,.service-entry .panel{padding:15px}.service-heading .service-icon{width:44px;height:44px}}
+  </style>
+  <style>
+    .auth-matrix{display:none;position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1;background:#050506}
+    body[data-view="login"],body[data-view="cadastro"]{isolation:isolate;background:#050506}
+    body[data-view="login"] .auth-matrix,body[data-view="cadastro"] .auth-matrix{display:block}
+    body[data-view="login"] .matrix,body[data-view="cadastro"] .matrix{display:none}
+    .auth-matrix span{position:absolute;top:var(--top);left:var(--left);white-space:pre;line-height:10px;font-size:9px;font-family:monospace;font-weight:700;color:#8b53dc;opacity:var(--opacity)}
+    .auth-matrix::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 47%,#050506bf,transparent 66%)}
+    .auth-page{width:min(100%,358px);margin-inline:auto;padding-bottom:22px}
+    .auth-page.register{padding-top:30px}
+    .auth-logo{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:42px;font-size:16px;font-weight:950;letter-spacing:.015em;line-height:1.15}
+    .auth-logo svg{width:35px;height:35px;overflow:visible;filter:drop-shadow(0 0 5px #8b62ed42)}
+    .auth-logo strong{color:#7950de}
+    .auth-card{min-height:300px;border:1px solid #26272a;border-radius:10px;padding:19px;background:#090a0b;box-shadow:0 0 0 1px #ffffff04}
+    .auth-page.register .auth-card{min-height:412px}
+    .auth-card h1{text-align:center;font-size:15px;font-weight:850}
+    .auth-card h1 strong{color:#9d53ed}
+    .auth-card>p{text-align:center;margin-top:4px;font-size:11px;color:#b7bfcb}
+    .auth-form{display:grid;gap:12px;margin-top:17px}
+    .auth-field label{display:block;margin-bottom:4px;color:#d2d6dd;font-size:11px;font-weight:750}
+    .auth-input{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 9px;border:1px solid #292d30;border-radius:8px;background:#101314;color:#9da9b8}
+    .auth-input:focus-within{border-color:#9a59e9;box-shadow:0 0 0 1px #9a59e94d}
+    .auth-input svg{width:13px;height:13px}
+    .auth-input input{width:100%;min-width:0;padding:6px 0;border:0;background:transparent;color:#f4f5f8;font-size:11px}
+    .auth-input input:focus{outline:none}.auth-input input::placeholder{color:#a6b8ce;opacity:1}
+    .auth-eye{display:grid;place-items:center;width:25px;height:28px;padding:0;margin-right:-5px;border:0;border-radius:4px;background:transparent;color:inherit;flex:none}
+    .auth-eye:hover{color:#e0c4ff}
+    .auth-submit{min-height:32px;padding:6px 9px;border:0;border-radius:10px;background:linear-gradient(105deg,#4934ae,#a250eb);font-size:11px;font-weight:850}
+    .auth-links{margin-top:12px;color:#b5bcca;text-align:center;font-size:10px}
+    .auth-links a{color:#d69bff;text-decoration:underline}
+    .auth-links p+p{margin-top:6px}.auth-note{color:#9f92b5}
+    .auth-feedback{color:#d5b3ff;font-size:11px}.auth-feedback.error{color:#ff9ca9}
+    body[data-view="boas-vindas"]{background:#060708}
+    body[data-view="boas-vindas"] .matrix{display:none}
+    body[data-view="boas-vindas"] .container{display:grid;justify-items:center;align-items:start;padding-block:44px 36px}
+    .welcome-card{width:min(100%,320px);padding:25px 19px 19px;text-align:center;border:1px solid #20222a;border-radius:13px;background:#0e1113;box-shadow:0 10px 28px #4527a940}
+    .welcome-logo{display:block;width:48px;height:48px;margin:0 auto 18px;filter:drop-shadow(0 0 10px #8b62ed52)}
+    .welcome-logo svg{display:block;width:100%;height:100%}
+    .welcome-card h1{font-family:Arial,sans-serif;font-size:18px;font-weight:800;line-height:1.25;white-space:nowrap;letter-spacing:-.55px}
+    @media(max-width:350px){.welcome-card h1{font-size:clamp(13px,5.1vw,18px);white-space:normal}}
+    .welcome-card h1 strong,.welcome-balance strong{color:#9955eb;background:linear-gradient(105deg,#6540c8,#aa52ec);background-clip:text;-webkit-text-fill-color:transparent}
+    .welcome-confetti{display:block;margin:2px 0 16px;font-size:18px}
+    .welcome-balance{display:grid;gap:6px;padding:17px 12px 13px;border:1px solid #3b2a64;border-radius:10px;background:linear-gradient(115deg,#17152d,#1b1630);box-shadow:0 4px 10px #5033a52a;font-size:13px;font-weight:750}
+    .welcome-balance strong{font-size:28px;line-height:1.2;font-weight:950}
+    .welcome-description{margin:13px auto 16px;max-width:215px;font-size:11px;color:#e0e3e8}
+    .welcome-card .auth-submit{min-height:39px;font-size:13px}
+    .welcome-error{margin-top:9px;color:#ff9ca9;font-size:11px}
+    @media(max-width:400px){.auth-page.register{padding-top:12px}.auth-logo{margin-bottom:30px}.auth-input{min-height:38px}.auth-input input{font-size:14px}.auth-submit{min-height:38px}}
+    .dashboard-head .auth-nav{display:flex;align-items:center;gap:6px}
+    .dashboard-head .auth-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:5px 10px;border-radius:8px;color:#e9dbff;font-size:12px;font-weight:750;white-space:nowrap}
+    .dashboard-head .auth-nav a:hover{background:#ffffff14}
+    .dashboard-head .auth-nav .signup-link{background:linear-gradient(105deg,#4934ae,#9144d8);color:#fff}
+    .dashboard-head .auth-nav .signup-link:hover{filter:brightness(1.13)}
+    @media(max-width:385px){.dashboard-head{gap:6px}.dashboard-head .brand{font-size:15px}.dashboard-head .auth-nav{gap:2px}.dashboard-head .auth-nav a{padding-inline:6px}.dashboard-head .icon-btn{width:30px}}
+  </style>
+</head>
+<body>
+  <div class="matrix" id="matrix" aria-hidden="true"></div>
+  <div class="auth-matrix" id="auth-matrix" aria-hidden="true"></div>
+  <header id="header"></header>
+  <main class="container" id="main"></main>
+  <footer id="footer"></footer>
+  <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script>
+    'use strict';
+
+    const iconPaths = {
+      authMail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+      authEye:'<path d="M2 12s3.7-5.5 10-5.5 10 5.5 10 5.5-3.7 5.5-10 5.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.4"/>',
+      authEyeOff:'<path d="m3 3 18 18M9.8 6.7c.7-.1 1.5-.2 2.2-.2 6.3 0 10 5.5 10 5.5a15 15 0 0 1-2.8 2.8m-3.2 2.1c-1.2.4-2.5.6-4 .6C5.7 17.5 2 12 2 12a15 15 0 0 1 4-3.9"/>',
+      authEnter:'<path d="M14 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5M3 12h12m-4-4 4 4-4 4"/>',
+      logo:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="11" cy="11" r="4"/><path d="m14 14 5 5"/>',
+      menu:'<path d="M3 6h18M3 12h18M3 18h18"/>', back:'<path d="m14 6-6 6 6 6M8 12h13"/>', close:'<path d="m6 6 12 12M18 6 6 18"/>',
+      spark:'<path d="m12 2 2.3 6.7L21 11l-6.7 2.3L12 20l-2.3-6.7L3 11l6.7-2.3L12 2Zm7 14v5m-2.5-2.5h5"/>',
+      bolt:'<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/>', check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+      flame:'<path d="M12 22c-4 0-7-3-7-7 0-3 2-6 4-8 0 3 2 4 2 4 2-3 2-6 2-9 4 4 6 8 6 12 0 5-3 8-7 8Zm0 0c-2 0-3-2-3-3s1-3 3-5c2 2 3 3 3 5s-1 3-3 3Z"/>',
+      instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/>',
+      whatsapp:'<path d="M21 11.5a9 9 0 0 1-13 8.1L3 21l1.4-4.8A9 9 0 1 1 21 11.5Z"/><path d="M8 8c0 4 4 8 8 8m-7-9 1 2-1 1m4 4 1-1 2 1"/>',
+      facebook:'<path d="M15 22v-8h3l1-4h-4V8c0-1 .4-2 2-2h2V2h-3c-4 0-6 2-6 6v2H7v4h3v8"/>',
+      localizacao:'<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+      sms:'<path d="M21 11.5a9 8 0 0 1-9 8h-3L3 22l1.6-4.6A8 8 0 0 1 3 11.5a9 8 0 1 1 18 0Z"/>',
+      chamadas:'<path d="M21 16.2v3a2 2 0 0 1-2.2 2 18 18 0 0 1-16-16A2 2 0 0 1 5 3h3l2 5-2 2a14 14 0 0 0 6 6l2-2 5 2Z"/>',
+      camera:'<path d="M4 7h4l2-3h4l2 3h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="4"/>',
+      redes:'<circle cx="6" cy="12" r="3"/><circle cx="18" cy="5" r="3"/><circle cx="18" cy="19" r="3"/><path d="m9 10 6-4m-6 8 6 4"/>',
+      detetive:'<circle cx="10" cy="10" r="6"/><path d="m14 14 6 6"/>', user:'<circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/>',
+      trophy:'<path d="M8 3h8v6a4 4 0 0 1-8 0V3Zm0 2H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/>'
+    };
+    const icon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]}</svg>`;
+
+    const services = [
+      {id:'instagram', name:'Instagram', description:'Ve las fotos que le gustaron, las publicaciones que compartió y los mensajes directos', color:'#ff6285'},
+      {id:'whatsapp', name:'WhatsApp', description:'Accede a conversaciones completas, audios, videos y grupos', color:'#47df82', cost:40, title:'Clonar WhatsApp'},
+      {id:'facebook', name:'Facebook', description:'Ve todas las interacciones y obtén acceso completo a Messenger', color:'#4799ff', cost:45},
+      {id:'localizacao', name:'Ubicación', description:'Rastrea en tiempo real y ve los lugares sospechosos que visitó', color:'#ff8059', title:'Ubicación GPS', cost:60},
+      {id:'sms', name:'SMS', description:'Todos los mensajes de texto enviados y recibidos', color:'#f3d54c', cost:30},
+      {id:'chamadas', name:'Llamadas', description:'Registro completo de llamadas con duración y horarios', color:'#51de96', cost:25},
+      {id:'camera', name:'Cámara', description:'Accede a fotos y videos de la galería, incluidos los archivos eliminados', color:'#d373ff', cost:55, directCost:60, title:'Cámara remota'},
+      {id:'redes', name:'Otras redes', description:'Búsqueda completa en todas las redes sociales (incluidos sitios porno)', color:'#ff6da8', cost:70},
+      {id:'detetive', name:'Detective privado', description:'Investigación personalizada y completa con un detective real', color:'#69a7ff'}
+    ];
+    const trackers = {
+      instagram: {start:2,minutes:7200,marks:[1,18,38,55,72,100],steps:['Perfil encontrado','Accediendo al feed y a las historias...','Recuperando mensajes privados...','Analizando la lista de acosadores...','Identificando los Me gusta ocultos...','Generando el informe completo...'],notice:'Análisis en curso',compact:true,cancelOutside:true},
+      whatsapp: {start:1,minutes:7200,steps:['Conectando al servidor seguro...','Accediendo a conversaciones cifradas...','Sincronizando los mensajes y el historial...','Descargando archivos multimedia (fotos, videos y audios)...','Analizando contactos y grupos...','Generando el informe final...'],title:'Investigando WhatsApp',notice:'Investigación en curso',noticeColor:'#23ce73',field:'phone',tip:'Introduce el número con el código de área.',features:[['Conversaciones','Historial completo, incluidos los mensajes borrados.'],['Multimedia','Fotos, videos, audios y documentos compartidos.'],['Llamadas','Llamadas de voz y video con hora y duración.']]},
+      facebook: {start:1,minutes:7200,steps:['Verificando el perfil…','Preparando publicaciones…','Analizando interacciones…','Preparando conversaciones…','Organizando actividades…','Generando el informe final…'],title:'Investigando Facebook',field:'profile'},
+      localizacao: {start:8,minutes:20,marks:[3,7,28,55,84,100],steps:['Iniciando el rastreo...','Conectando al celular de la persona investigada...','Identificando los lugares que frecuenta...','Identificando lugares sospechosos...','Analizando patrones de movimiento...','Generando el informe de ubicación...'],title:'Rastreo activo',caption:'Detectando la ubicación...',notice:'Análisis en curso',compact:true,warm:true},
+      sms: {start:1,minutes:7200,steps:['Conectando…','Preparando mensajes…','Sincronizando el historial…','Analizando conversaciones…','Generando el informe final…'],title:'Investigando SMS',field:'phone',tip:'Introduce el número con el código de área.',features:[['MENSAJES','Historial completo, incluidos los mensajes eliminados.'],['CÓDIGOS','Códigos de verificación de aplicaciones y servicios.']]},
+      chamadas: {start:1,minutes:7200,steps:['Conectando…','Preparando el historial de llamadas…','Organizando las llamadas…','Analizando la duración y los contactos…','Generando el informe final…'],title:'Historial de llamadas',field:'phone',features:[['Historial','Llamadas recibidas y realizadas.'],['Duración','Duración exacta de cada llamada.'],['Contactos','Números a los que más se llama.']]},
+      camera: {start:1,minutes:4320,steps:['Conectando al dispositivo...','Activando la cámara frontal...','Configurando la transmisión...','Capturando video en directo...','Guardando grabaciones...'],title:'Acceso a la cámara y a la galería',caption:'Conectando...',notice:'Acceso en curso',noticeColor:'#aa36be'},
+      redes: {start:10,minutes:10,marks:[5,27,46,66,84,100],steps:['Verificando los datos...','Buscando en 47 plataformas...','Analizando redes sociales...','Verificando aplicaciones de citas...','Buscando contenido para adultos...','Recopilando los resultados...'],title:'Buscando en 47 plataformas',caption:'Analizando perfiles...',notice:'Búsqueda completa en varias plataformas',roomy:true,inlineBoost:true,cancelOutside:true,field:'profile'}
+    };
+    Object.assign(iconPaths,{
+      reportTrash:'<path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 3v7m4-7v7"/>',
+      reportLock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/>',
+      reportFacebook:'<circle cx="12" cy="12" r="11" fill="currentColor" stroke="none"/><path d="M13 22v-8h3l.5-3H13V9c0-1 .7-1.5 1.7-1.5H17V5h-2.6C11.5 5 10 6.6 10 9v2H7.5v3H10v8" fill="#187af2" stroke="none"/>',
+      reportThreads:'<path d="M20.7 8C19 4.5 16.6 3 12 3 6.3 3 3.2 6 3.2 12c0 6.3 3.4 9 8.9 9 5 0 7.9-2.5 7.9-5.9 0-3-2.4-4.6-6.5-4.6-3.1 0-4.8 1.3-4.8 3.3 0 1.8 1.5 2.8 3.4 2.8 3.6 0 4.7-2.5 4.7-5.3 0-3.2-1.9-5-4.7-5-1.5 0-2.8.5-3.7 1.7"/>',
+      reportYoutube:'<rect x="1" y="5" width="22" height="14" rx="4" fill="currentColor" stroke="none"/><path d="m10 8 6 4-6 4z" fill="#ff0000" stroke="none"/>',
+      reportTelegram:'<circle cx="12" cy="12" r="11" fill="currentColor" stroke="none"/><path d="m5 11 13-5-2.8 12-3.9-3.4-2.1 2v-3l6.5-5.4-8.1 4.2z" fill="#008cc5" stroke="none"/>',
+      reportTinder:'<path d="M12 22c-5 0-8.6-3.4-8.6-8.2 0-4 2.5-6.5 4.4-8.2-.1 2.4.9 3.7 2.3 4.4 1.8-2 2.5-4.4 2-7.3 4.8 3 8.5 6.6 8.5 11.5 0 4.6-3.5 7.8-8.6 7.8Z" fill="currentColor" stroke="none"/>',
+      reportBumble:'<path d="M7 2h10l6 10-6 10H7L1 12z" fill="currentColor" stroke="none"/><path d="M9 7h6m-8 5h10m-6 5h3" stroke="#ffc323" stroke-width="2.2"/>',
+      reportGrindr:'<path d="M2 3h20l-1 13c-.3 3.5-4.8 5.4-9 6-4.2-.6-8.7-2.5-9-6z" fill="currentColor" stroke="none"/><path d="M5.5 11c3-1.8 5.3.4 5 2.6-.5 2.4-5.1 1.1-5-.9Zm13 0c-3-1.8-5.3.4-5 2.6.5 2.4 5.1 1.1 5-.9Z" fill="#ffb327" stroke="none"/>',
+      reportSnap:'<path d="M12 2C8.8 2 7 4.6 7 8c0 1.3.4 2.8-1.3 3.7L4 12.8l2 1.3-1 2.5 3.1.5L10 19h4l1.9-1.9 3.1-.5-1-2.5 2-1.3-1.7-1.1C16.6 10.8 17 9.3 17 8c0-3.4-1.8-6-5-6Z" fill="currentColor" stroke="none"/>',
+      reportSpotify:'<circle cx="12" cy="12" r="11" fill="currentColor" stroke="none"/><path d="M5.5 9c4.5-1.4 9-.8 13 1.2m-11.8 2c3.5-.9 7.1-.4 10.3 1.1m-9.1 2.2c2.8-.6 5.4-.2 7.8.9" fill="none" stroke="#0c2f1f" stroke-width="1.4"/>',
+      reportDiscord:'<path d="m5 5 4-2 1 2h4l1-2 4 2c2.5 4 3.5 7.7 3.1 11.5L17 20l-1.1-2.3a13 13 0 0 0-7.8 0L7 20l-5.1-3.5C1.5 12.7 2.5 9 5 5Z" fill="currentColor" stroke="none"/><circle cx="8.6" cy="12" r="1.6" fill="#171b39" stroke="none"/><circle cx="15.4" cy="12" r="1.6" fill="#171b39" stroke="none"/>'
+    });
+    const reportApps = {
+      social:[['Instagram','instagram','radial-gradient(circle at 26% 94%,#ffe389,#ff5674 43%,#a234c5 65%,#523bf6)'],['Facebook','reportFacebook','#187af2'],['WhatsApp','whatsapp','#1ccc63'],['TikTok','♫','#060707'],['Threads','reportThreads','#070808'],['Twitter/X','𝕏','#060707'],['YouTube','reportYoutube','#ff0000'],['Telegram','reportTelegram','#008cc5']],
+      dating:[['Tinder','reportTinder','linear-gradient(140deg,#ff2b72,#ff7655)'],['Bumble','reportBumble','#ffc323'],['Badoo','♡','#753af6'],['Grindr','reportGrindr','#ffb327','#141008']],
+      adult:[['OnlyFans','OF','#fff','#00a9de'],['Privacy','Ⓟ','#f9efe6','#ff693e'],['Xvideos','X','#080808','#ff131a','Detectado']],
+      missing:[['LinkedIn','in','#092330','#039bcf'],['Snapchat','reportSnap','#322f05','#fbef00'],['Discord','reportDiscord','#171b39','#7374ff'],['Reddit','☻','#351705','#ff591a'],['Spotify','reportSpotify','#0c2f1f','#1cbe61'],['Pinterest','Ⓟ','#321017','#e61932']]
+    };
+    const reportOffers = {
+      dating:{name:'Sitios de citas',credits:50,theme:'rose',symbol:'💕'},
+      adult:{name:'Contenido para adultos',credits:50,theme:'violet',symbol:'🔞'},
+      ashley:{name:'Ashley Madison',credits:40,theme:'ashley'}
+    };
+    const reportSites = {
+      Tinder:'https://tinder.com/',
+      Bumble:'https://bumble.com/',
+      Badoo:'https://badoo.com/',
+      Grindr:'https://www.grindr.com/',
+      OnlyFans:'https://onlyfans.com/',
+      Privacy:'https://privacy.com.br/',
+      Xvideos:'https://www.xvideos.com/',
+      'Ashley Madison':'https://www.ashleymadison.com/'
+    };
+    const otherReportApps = ['Bluesky','Mastodon','Tumblr','Signal','WeChat','Line','Viber','KakaoTalk','Messenger','Skype','Twitch','Vimeo','Dailymotion','Flickr','Behance','Dribbble','SoundCloud','Deezer','Last.fm','Quora','Medium','Meetup','GitHub','Letterboxd'];
+    const reportPhone='+55 00 00000-0000';
+    const packages = [
+      {credits:100, price:'39,90'},
+      {credits:600, price:'79,90', old:'209,30', bonus:'100', savings:'129,40'},
+      {credits:1500, price:'149,90', old:'538,20', bonus:'300', savings:'388,30', label:'MÁS VENDIDO'},
+      {credits:5000, price:'299,90', old:'1794,00', bonus:'1.000', savings:'1494,10'},
+      {credits:10000, price:'499,90', old:'4485,00', bonus:'5.000', savings:'3985,10', label:'MEJOR RELACIÓN CALIDAD-PRECIO'},
+      {price:'49,90', savings:'9002,00', label:'ILIMITADO'}
+    ];
+    const detectivePlans = [
+      {name:'Investigación básica',cost:700,tone:'basic',caption:'Infiltración digital completa',items:['Espionaje completo y manual de todas las redes sociales de la persona investigada','Creación de una cuenta falsa de WhatsApp para contactarle (con tu mismo código de área para evitar sospechas)','Creación de una cuenta falsa de Instagram con un perfil convincente','Creación de una cuenta falsa de Facebook para acercarse a la persona','Conversaciones por mensajes y prueba de fidelidad','Informe completo con capturas de pantalla y análisis']},
+      {name:'Investigación avanzada',cost:1000,tone:'advanced',tag:'EL MÁS ELEGIDO',caption:'Personas reales y videollamadas',includes:'✨ Todo lo de la investigación básica +',items:['Actores y actrices REALES (son personas de verdad y no perfiles falsos)','Posibilidad de hacer videollamadas para ganarse la confianza de la persona investigada','Perfiles verificados con un historial real en redes sociales','Conversaciones por audio para reforzar el vínculo','Siempre con tu mismo código de área para que resulte natural','Muchas más posibilidades de éxito y de obtener pruebas concretas']},
+      {name:'Investigación Máster PRO',cost:2000,tone:'master',tag:'👑 VIP',caption:'Encuentro real en tu ciudad',includes:'🔥 Todo lo de la investigación avanzada +',items:['Actor o actriz de una ciudad cercana para un encuentro en persona','Prueba de fidelidad en el mundo real con un encuentro en persona','Grabación discreta en video del encuentro como prueba definitiva','Profesionales capacitados y con experiencia en investigaciones presenciales','Informe detallado con fotos, videos y un análisis completo del comportamiento','Seguimiento y actualizaciones en tiempo real por WhatsApp','Máxima garantía de éxito y pruebas irrefutables'],note:'🏆 La investigación más completa. ¡Para tener absoluta certeza!'}
+    ];
+    const detectiveSteps = [
+      ['Información inicial','Nos das toda la información de la persona investigada: nombre completo, redes sociales, teléfono, hábitos y horarios. Cuantos más detalles, mejor será la investigación.'],
+      ['Inicio inmediato','La investigación comienza INMEDIATAMENTE después de contratar el servicio. El detective analiza el perfil, diseña la estrategia y establece el primer contacto.'],
+      ['Infiltración y acercamiento','El detective crea un perfil falso convincente y agrega a la persona investigada en redes sociales para acercarse a su círculo social.'],
+      ['Ganarse la confianza','Mantiene conversaciones naturales, comenta sus fotos y usa técnicas de persuasión para ganarse su confianza.'],
+      ['Prueba de fidelidad','Una vez que se gana su confianza, el detective realiza pruebas sutiles para comprobar su fidelidad.'],
+      ['Recopilación de pruebas','Se documentan todas las interacciones relevantes con capturas de pantalla, audios y videos.'],
+      ['Informe final completo','Recibes un informe en PDF con todas las pruebas y un análisis completo del comportamiento.']
+    ];
+    const detectiveQuestions = [
+      ['¿Cómo funciona la investigación del detective?','Una vez contratado el servicio, el detective se pone en contacto contigo para recopilar información sobre la persona investigada. Crea un perfil falso personalizado y establece contacto en redes sociales. Recibes actualizaciones constantes por WhatsApp y la investigación continúa hasta tener todas las respuestas.'],
+      ['¿Cuánto tardan en llegar los resultados?','El detective inicia la investigación en cuanto contratas el servicio. El primer contacto con la persona investigada suele ocurrir en un plazo de 24 a 48 horas. La investigación continúa hasta que tengas la información que buscas. Tú decides cuándo parar.'],
+      ['¿Es seguro? ¿Se enterará mi pareja?','Totalmente seguro y discreto. El detective usa perfiles profesionales creados para la investigación. Tu pareja no podrá rastrear el contacto hasta ti. Toda la comunicación se realiza por WhatsApp y está cifrada.'],
+      ['¿Qué incluye el servicio?','Incluye un detective profesional real, contacto directo con el detective por WhatsApp las 24 horas, un informe completo en PDF con todas las pruebas, capturas de conversaciones, un análisis profesional del comportamiento y actualizaciones en tiempo real.'],
+      ['¿Qué pasa si el detective no consigue recopilar información?','Si en 15 días el detective no logra contactar con la persona investigada o recopilar información relevante, te devolvemos el 100 % de los créditos. Nuestra tasa de éxito es del 98 %.'],
+      ['¿Cómo funcionan los créditos?','Cada investigación incluye una cantidad de créditos. Los créditos se gastan mientras la investigación está en curso. Cuanto más amplia sea la investigación, más tiempo tendrás. Puedes pausarla y reanudarla cuando quieras.'],
+      ['¿Puedo contratar más créditos después?','¡Sí! Si se te acaban los créditos y quieres seguir, puedes contratar una nueva investigación en cualquier momento. Tus investigaciones anteriores se guardan en tu panel.'],
+      ['¿Las pruebas tienen validez jurídica?','Sí. Entregamos un informe completo en PDF con todas las pruebas documentadas (capturas, conversaciones y análisis). Este material se puede usar como prueba en procesos de divorcio o acciones judiciales.']
+    ];
+    const detectiveMessages = [
+      {typingAt:0,at:2033,side:'outgoing',time:'23:42',text:'Holaa, hablamos en Tinder'},
+      {typingAt:3000,at:4500,side:'outgoing',time:'23:42',text:'¿Todo bien?'},
+      {typingAt:6000,at:8500,side:'incoming',time:'23:44',text:'Hola, buenas noches. Mejor ahora'},
+      {typingAt:9500,at:11500,side:'incoming',time:'23:44',text:'Estás buenísima, ¿sabías?'},
+      {typingAt:13000,at:15000,side:'outgoing',time:'23:45',text:'Jaja, gracias 💗'},
+      {typingAt:16500,at:19000,side:'incoming',time:'23:46',text:'No puedo recibirte en casa'},
+      {typingAt:20500,at:22500,side:'incoming',time:'23:46',text:'¿Te animas a ir a un motel? Yo pago'},
+      {typingAt:24500,at:27000,side:'outgoing',time:'23:47',text:'Pues sí me animaría, pero hay un problema...'},
+      {typingAt:28500,at:32000,side:'outgoing',time:'23:47',text:'En realidad me llamo Mike y soy detective privado de Insta Pro 👁',emphasis:true},
+      {typingAt:33500,at:36500,side:'outgoing',time:'23:48',text:'Tu pareja me contrató para poner a prueba tu fidelidad'},
+      {typingAt:38000,at:40500,side:'outgoing',time:'23:48',text:'Y no pasaste la prueba ❌❌❌'}
+    ];
+    const detectiveNoticeAt=42500;
+    const detectiveReviews = [['"Descubrí todo lo que necesitaba. ¡Lo recomiendo!"','— Ana M.'],['"Profesional y discreto. ¡Valió la pena!"','— Carlos R.'],['"Recibí todas las pruebas en 10 días."','— Julia S.'],['"Servicio impecable. ¡Estoy satisfecho!"','— Ricardo P.']];
+    const publicPoints = [
+      {name:'MASP · Avenida Paulista',lat:-23.56137,lon:-46.65645},
+      {name:'Japan House · Avenida Paulista',lat:-23.57144,lon:-46.64512}
+    ];
+    const mapCities = [
+      {name:'São Paulo',lat:-23.5505,lon:-46.6333},
+      {name:'Rio de Janeiro',lat:-22.9068,lon:-43.1729},
+      {name:'Belo Horizonte',lat:-19.9167,lon:-43.9345},
+      {name:'Brasília',lat:-15.7934,lon:-47.8823},
+      {name:'Curitiba',lat:-25.4284,lon:-49.2733},
+      {name:'Salvador',lat:-12.9714,lon:-38.5014},
+      {name:'Recife',lat:-8.0476,lon:-34.8770},
+      {name:'Porto Alegre',lat:-30.0346,lon:-51.2177}
+    ];
+    const mapDetailCost = 30;
+    const emptyLocationMap = () => ({city:null,detail:false});
+    const levels = [
+      {name:'Principiante',xp:0,benefits:['Acceso a todos los servicios','Soporte básico']},
+      {name:'Investigador',xp:100,benefits:['10% de descuento en créditos','Bonificación de 10 créditos','Soporte prioritario']},
+      {name:'Detective',xp:300,benefits:['15% de descuento en créditos','Bonificación de 25 créditos','5% de reembolso en créditos por investigaciones','Soporte VIP']},
+      {name:'Especialista',xp:600,benefits:['20% de descuento en créditos','Bonificación de 50 créditos','10% de reembolso en créditos por investigaciones','Una aceleración gratis por semana']},
+      {name:'Maestro espía',xp:1000,benefits:['30% de descuento en créditos','Bonificación de 100 créditos','15% de reembolso en créditos por investigaciones','Aceleración gratuita ilimitada','Insignia exclusiva de Maestro','Acceso anticipado a nuevos servicios']}
+    ];
+    const faq = [
+      ['¿Cómo funciona el sistema de créditos?','Cada servicio tiene un costo en créditos. Compras los créditos una vez y puedes usarlos en cualquier investigación. Los créditos no caducan y puedes acumular cuantos quieras.',true],
+      ['¿Cuánto dura una investigación?','Depende del servicio: Instagram (5 a 7 días), WhatsApp (3 a 5 días), Facebook (7 días), Ubicación (inmediata), SMS (minutos), Llamadas (minutos), Cámara (11 horas) y Detective privado (duración variable).',true],
+      ['¿Puedo acelerar las investigaciones?','¡Sí! La mayoría de los servicios ofrece la opción de acelerar por 30 créditos. El progreso aumenta considerablemente al hacerlo.'],
+      ['¿Se pueden reembolsar los créditos?','No. Una vez gastados, los créditos no se pueden reembolsar. Garantizamos que todas las investigaciones se completarán con éxito.',true],
+      ['¿Es legal usar estos servicios?','Es tu responsabilidad usar los servicios dentro de la ley. Recomendamos usarlos únicamente para investigar a personas con las que tengas una relación legítima (cónyuge, pareja o hijos menores a tu cargo).',true],
+      ['¿Cómo funciona el servicio gratuito de Instagram?','Iniciar el servicio básico de Instagram es gratis. Tarda unos días en completarse. Si quieres obtener los resultados antes, puedes usar créditos para acelerarlo.'],
+      ['¿Puedo cancelar una investigación?','Sí, puedes cancelar en cualquier momento desde el panel. Los créditos ya gastados no se devolverán.'],
+      ['¿Qué ocurre al completar una investigación?','Ganas XP (experiencia) y puedes ver todos los resultados. Algunas investigaciones (como Ubicación, SMS, Llamadas y Cámara) se guardan en el panel para consultarlas más adelante.',true],
+      ['¿Cómo funciona el sistema de niveles y XP?','Ganas XP con cada investigación. ¡Cuando acumulas suficiente XP, subes de nivel y ganas créditos de bonificación! Cuanto más alto sea tu nivel, más créditos de bonificación recibes.',true],
+      ['¿Puedo tener varias investigaciones a la vez?','¡Sí! Puedes tener varias investigaciones en curso al mismo tiempo en distintos servicios.'],
+      ['¿Cómo funciona el servicio de detective privado?','Es un servicio prémium en el que un detective REAL y profesional realiza una investigación manual completa. Crea perfiles falsos, se acerca a la persona investigada, pone a prueba su fidelidad y prepara un informe completo. Cuesta 1000 créditos y es el servicio más eficaz.',true],
+      ['¿Los datos son seguros y privados?','¡Sí! Usamos cifrado SSL y servidores seguros. Nunca compartimos tus investigaciones con terceros. Todo es 100 % confidencial.',true],
+      ['¿Puedo comprar más créditos en cualquier momento?',"¡Sí! Puedes acceder a «Comprar créditos» desde tu perfil o desde el panel en cualquier momento. Ofrecemos paquetes de 100, 500, 1000 y 2000 créditos.",true],
+      ['¿Qué hago si falla una investigación?','Es muy poco frecuente. Si ocurre, ponte en contacto con nuestro equipo de soporte y revisaremos tu caso.',true],
+      ['¿Puedo eliminar una investigación completada?','Sí, puedes eliminar investigaciones desde el panel en cualquier momento. Los datos se eliminarán de forma permanente.']
+    ];
+
+    // Keep the existing storage namespace so local accounts and balances survive the rename.
+    const key = 'stalkeia-demo-v1';
+    const legacyLabels = new Map([
+      ['Localização','Ubicación'],
+      ['Chamadas','Llamadas'],
+      ['Câmera','Cámara'],
+      ['Outras Redes','Otras redes'],
+      ['Detetive Particular','Detective privado'],
+      ['Investigação Básica','Investigación básica'],
+      ['Investigação Avançada','Investigación avanzada'],
+      ['Investigação Master PRO','Investigación Máster PRO'],
+      ['Sites de Relacionamento','Sitios de citas'],
+      ['Conteúdo Adulto','Contenido para adultos'],
+      ['Pacote Completo de Outras Redes','Paquete completo de otras redes'],
+      ['Zoom detalhado do mapa','Zoom detallado del mapa'],
+      ['Presente de nível 2','Regalo del nivel 2'],
+      ['Primeiro Spy','Primer caso']
+    ]);
+    function savedLabel(label) {
+      if (typeof label === 'string' && label.startsWith('Acelerar ')) {
+        const service = label.slice('Acelerar '.length);
+        return `Acelerar ${legacyLabels.get(service) ?? service}`;
+      }
+      return legacyLabels.get(label) ?? label;
+    }
+    const accountsKey = `${key}:accounts`;
+    const sessionKey = `${key}:session`;
+    const passwordRounds = 600000;
+    const signupCredits = 200;
+    let account = readSession();
+    const initial = () => ({name:account?.name||'Visitante',credits:account?.startingCredits??80,unlimited:false,xp:95,analyses:{},orders:{},plans:[],ledger:[],rewardPending:false,firstSpyClaimed:false,reportUnlocks:[],locationMap:emptyLocationMap()});
+
+    function readAccounts() {
+      const accounts=JSON.parse(localStorage.getItem(accountsKey)||'[]');
+      if(!Array.isArray(accounts))throw Error('Registro local no válido.');
+      return accounts;
+    }
+    function readSession() {
+      try {
+        const email=sessionStorage.getItem(sessionKey);
+        return email?readAccounts().find(entry=>entry.email===email)||null:null;
+      } catch { return null; }
+    }
+    function hasLocalAccounts() {
+      try { return readAccounts().length>0; }
+      catch { return false; }
+    }
+    function panelStorageKey() {
+      return account?`${key}:panel:${account.email}`:key;
+    }
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(panelStorageKey()));
+        if (saved && Number.isSafeInteger(saved.credits) && saved.credits >= 0 && saved.orders && Array.isArray(saved.ledger)) return {...initial(),...saved,analyses:saved.analyses || {}};
+      } catch { /* Storage can be disabled when opening a local file. */ }
+      return initial();
+    }
+    let state = load();
+    let toastTimeout;
+    let approve;
+    let cityLookup=null;
+    let chatStartedAt=null;
+    let chatTimer;
+    let review = 0;
+    const minute = 60 * 1000;
+    const main = document.querySelector('#main');
+    const header = document.querySelector('#header');
+    const footer = document.querySelector('#footer');
+    const dialog = document.querySelector('#dialog');
+    const toast = document.querySelector('#toast');
+    const formatNumber = new Intl.NumberFormat('es', {useGrouping:'always'});
+    const balance = () => state.unlimited ? '∞' : formatNumber.format(state.credits);
+    const safe = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const brand = `<a class="brand" href="#painel" aria-label="Insta Pro, volver al panel">${icon('logo')}Insta <strong>Pro</strong></a>`;
+    const fakeCopy = text => `(fake) ${text}`;
+    const bar = (value, label) => `<div class="bar" role="progressbar" aria-label="${label}" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100"><span style="width:${value}%"></span></div>`;
+    const serviceButton = (id, label, kind='btn') => `<button class="${kind}" type="button" data-action="service:${id}">${label}</button>`;
+    const menuLink = (link, name, glyph) => `<a role="menuitem" href="#${link}">${icon(glyph)} ${name}</a>`;
+
+    function save() { try { localStorage.setItem(panelStorageKey(),JSON.stringify(state)); } catch { /* Panel state can still be viewed in memory. */ } }
+    function notify(message, type='') {
+      clearTimeout(toastTimeout);
+      toast.textContent = message;
+      toast.dataset.kind=type;
+      toast.hidden = false;
+      toastTimeout = setTimeout(() => {toast.hidden = true;},4000);
+    }
+    function levelInfo() {
+      const index = levels.findLastIndex(level => state.xp >= level.xp);
+      const start = levels[index].xp;
+      const limit = levels[index+1]?.xp;
+      return {n:index+1, gained:state.xp-start, target:limit ? limit-start : null};
+    }
+    function gainXp(amount) {
+      if (state.xp<100 && state.xp+amount>=100) state.rewardPending=true;
+      state.xp+=amount;
+    }
+    function record(label, change) {
+      state.ledger.unshift({label,change});
+      state.ledger.length = Math.min(50,state.ledger.length);
+    }
+    function hasCredit(cost) { return state.unlimited || state.credits >= cost; }
+    function debit(cost, label) {
+      if (!hasCredit(cost)) return false;
+      if (!state.unlimited) state.credits -= cost;
+      record(label,state.unlimited ? 0 : -cost);
+      return true;
+    }
+    function analysisProgress(id) {
+      if (state.orders[id]==='complete') return 100;
+      const analysis = state.analyses[id];
+      if (!analysis) return null;
+      const spec=trackers[id];
+      const elapsed=Math.max(0,(Date.now()-analysis.startedAt)/minute);
+      const progress=id==='localizacao' && elapsed<15
+        ? 8+elapsed/15*56
+        : id==='localizacao' ? 64+(elapsed-15)/5*36 : spec.start+elapsed/spec.minutes*(100-spec.start);
+      return Math.min(100,Math.floor(progress)+(analysis.boost||0));
+    }
+    function estimate(id, progress) {
+      const spec=trackers[id];
+      const remaining=id==='localizacao'
+        ? progress<64 ? 20-(progress-8)*15/56 : (100-progress)*5/36
+        : spec.minutes*(100-progress)/(100-spec.start);
+      const units=remaining>=1440 ? [Math.ceil(remaining/1440),'día','días']
+        : remaining>=60 ? [Math.ceil(remaining/60),'hora','horas'] : [Math.max(1,Math.ceil(remaining)),'minuto','minutos'];
+      return `${units[0]} ${units[0]===1?units[1]:units[2]}`;
+    }
+    function go(route) {
+      const hash = `#${route}`;
+      if (location.hash === hash) render();
+      else location.hash = hash;
+    }
+    function modal(title, body, label, action, kind='btn') {
+      dialog.className='';
+      approve = action;
+      dialog.innerHTML = `<button class="icon-btn close" data-action="close" aria-label="Cerrar">${icon('close')}</button><h2 id="dialog-title">${title}</h2>${body}<div class="actions">${label ? `<button type="button" class="${kind}" data-action="approve">${label}</button>` : ''}<button class="btn secondary" type="button" data-action="close">${label ? 'Cancelar' : 'Cerrar'}</button></div>`;
+      if (!dialog.open) dialog.showModal();
+    }
+    function confirmCredit(cost, name, action, purpose='iniciar esta investigación') {
+      if (!hasCredit(cost)) {
+        approve=()=>go('creditos');
+        dialog.className='credit-alert';
+        dialog.innerHTML=`<div class="credit-icon" aria-hidden="true">⚠</div><h2 id="dialog-title">Créditos insuficientes</h2><p>Necesitas ${formatNumber.format(cost)} créditos para ${purpose}.</p><button type="button" class="btn action-primary full" data-action="approve">Comprar créditos</button><button type="button" class="credit-return" data-action="close">Volver</button>`;
+        if(!dialog.open)dialog.showModal();
+        return;
+      }
+      modal('Confirmar uso de créditos',`<p>Vas a usar <strong>${formatNumber.format(cost)} créditos</strong> para <strong>${name}</strong>.</p><p>Saldo después de confirmar: <strong>${state.unlimited?'∞':formatNumber.format(state.credits-cost)} créditos</strong>.</p>`,'Confirmar y continuar',()=>{
+        if (debit(cost,name)) action();
+        else confirmCredit(cost,name,action,purpose);
+      });
+    }
+    function showLevelPrize() {
+      approve=()=>{
+        if(!state.rewardPending)return;
+        state.rewardPending=false;
+        state.credits+=20;
+        record('Regalo del nivel 2',20);
+        save();render();notify('Recibiste 20 créditos.');
+      };
+      dialog.className='level-prize';
+      dialog.innerHTML=`<div class="prize-icon">${icon('trophy')}</div><h2 id="dialog-title">🎉 ¡FELICIDADES! 🎉</h2><b>¡Subiste de nivel!</b><br><span class="level-label">Nivel 2</span><div class="prize-box"><b>🎁 ¡Regalo!</b><strong>+20</strong><b>Créditos</b><span>Pulsa el botón para recibirlo</span></div><button class="btn action-primary full" data-action="approve">🎊 ¡Recibir regalo! 🎊</button>`;
+      if(!dialog.open)dialog.showModal();
+    }
+    function headerHtml(title, detail) {
+      if (!title) return `<div class="head dashboard-head">
+        ${brand}
+        <div class="head-actions">
+          <nav class="auth-nav" aria-label="Acceso a la cuenta">${account?'<a href="#perfil">Mi cuenta</a>':'<a href="#login">Iniciar sesión</a><a class="signup-link" href="#cadastro">Crear cuenta</a>'}</nav>
+          <button class="icon-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" data-action="menu">${icon('menu')}</button>
+        </div>
+        <nav class="menu" id="menu" aria-label="Menú del panel" hidden>${menuLink('creditos','Comprar créditos','bolt')}${menuLink('perfil','Ver perfil','user')}${menuLink('recompensas','Recompensas','trophy')}<button role="menuitem" data-action="signout">${icon('back')} Cerrar sesión</button></nav>
+      </div>`;
+      const back=`<button class="icon-btn" aria-label="Volver" data-action="back">${icon('back')}</button>`;
+      const titleLabels={'Otras redes':'Otras <strong>redes</strong>','Detective privado':'Detective <strong>privado</strong>'};
+      const titleHtml=`<h1 class="page-title">${detail?icon('logo'):''}${titleLabels[title]||title}</h1>`;
+      return `<div class="head${detail?' detail':''}">${detail?`${back}${titleHtml}`:`<div class="inline">${back}${titleHtml}</div>`}<div class="head-actions"><a href="#creditos" class="top-balance" aria-label="Saldo de ${balance()} créditos">${icon('bolt')} ${balance()}</a></div></div>`;
+    }
+    function footerHtml() {
+      return `<div class="foot"><div>${brand}<p>${fakeCopy('El mayor software de espionaje de América Latina. Descubre la verdad sobre cualquier persona.')}</p><p>${fakeCopy('Certificado SSL')} · ${fakeCopy('Sitio 100 % seguro')}</p><p>${fakeCopy('Pagos seguros con tecnología')}</p></div><div><h4>Servicios</h4><ul>${[['instagram','Espiar Instagram'],['whatsapp','Espiar WhatsApp'],['facebook','Espiar Facebook'],['localizacao','Ubicación GPS'],['camera','Cámara remota'],['detetive','Detective privado']].map(([id,name])=>`<li><a href="#investigacao/${id}">• ${name}</a></li>`).join('')}</ul></div><div><h4>Información</h4><ul><li><a href="#ajuda">• Centro de ayuda</a></li><li><button class="text-btn" data-action="policy:termos">• Términos de uso</button></li><li><button class="text-btn" data-action="policy:privacidade">• Política de privacidad y cookies</button></li><li><button class="text-btn" data-action="policy:lgpd">• LGPD</button></li></ul></div><div class="copyright">© 2025 Insta Pro. Todos los derechos reservados.</div></div>`;
+    }
+    function serviceStatus(service) {
+      const {id,cost} = service;
+      const progress=analysisProgress(id);
+      if (progress===100 || state.orders[id]==='complete') return ['✓ Completado','ok'];
+      if (progress!==null) return [`${progress}% completado`,'active'];
+      if (state.orders[id]) return ['Contratado','active'];
+      if (cost) return [`${icon('bolt')} ${cost} créditos`,'cost'];
+      return [id==='detetive'?'Personalizado':'Gratis',''];
+    }
+    function dashboard() {
+      const {n,gained,target} = levelInfo();
+      const percent = target ? Math.round(gained/target*100) : 100;
+      const contract = (id, caption, progress) => {
+        const service = services.find(item=>item.id===id);
+        const [status,tone] = serviceStatus(service);
+        const active=typeof progress==='number'&&progress<100;
+        return `<button type="button" class="contract" data-action="service:${id}"${active?` data-live-contract="${id}"`:''}><div class="row"><span class="inline">${icon(tone==='ok'?'check':'spark')}<span><b>${service.name}</b><small>${caption}</small></span></span><span class="badge ${tone}">${active?`${progress}%`:status}</span></div>${active?bar(progress,`Progreso de ${service.name}`):''}</button>`;
+      };
+      const activeIds=new Set([...Object.keys(state.analyses).reverse(),...Object.keys(state.orders)]);
+      const contractLabels={camera:'Dispositivo investigado',redes:'47 redes sociales',localizacao:'Rastreo GPS'};
+      const contracts=[...activeIds].filter(id=>trackers[id]).map(id=>contract(id,safe(contractLabels[id]||state.analyses[id]?.handle||trackers[id].title||'Investigación'),analysisProgress(id)));
+      return `<section class="hero" aria-label="Resumen de la cuenta"><span class="welcome">${icon('spark')} ¡Bienvenido!</span><h1>¡Hola, ${safe(state.name)}! 👋</h1><p>Elige un servicio y comienza tu investigación</p><div class="hero-level">Niv. ${n}<small>Nivel</small></div><div class="stats"><div class="stat"><span class="stat-label">${icon('bolt')} Créditos</span><a class="plus" href="#creditos" aria-label="Comprar créditos"><span style="display:grid;place-items:center;height:100%">+</span></a><strong>${balance()}</strong></div><div class="stat"><span class="stat-label">${icon('spark')} XP</span><div class="xp-count">${target?`${gained} / ${target}`:`${state.xp} XP`}</div>${bar(percent,'XP del nivel')}</div></div></section>
+      <section><h2 class="section-title">${icon('check')} Servicios contratados</h2><div class="contracts">${contracts.join('') || '<p class="empty">Tus servicios contratados aparecerán aquí.</p>'}</div></section>
+      <section><h2 class="section-title">${icon('flame')} Servicios disponibles</h2><div class="cards">${services.map(service=>{const [status,tone]=serviceStatus(service); return serviceButton(service.id,`<span class="service-icon">${icon(service.id)}</span><h3>${service.name}</h3><p>${fakeCopy(service.description)}</p><span class="badge ${tone}">${status}</span>`,'card').replace('class="card"',`class="card" style="--accent:${service.color}"`);}).join('')}</div></section>`;
+    }
+    function storePage() {
+      return `<div class="view"><div class="intro"><span class="badge">${icon('bolt')} Recarga tus créditos</span><h2>Elige tu paquete</h2><p>${fakeCopy('Cuanto más compras, más ahorras')}</p></div><div class="packs">${packages.map(pack=>`<article class="pack ${pack.label?'highlight':''}">${pack.label?`<span class="badge">${pack.label}</span>`:''}${pack.old?`<s class="old">R$ ${pack.old}</s>`:''}<div class="pack-price">R$ ${pack.price}</div><div class="credit-count">${pack.credits?`${formatNumber.format(pack.credits)} <small>créditos</small>`:'Créditos ilimitados'}</div><ul><li>✓ Los créditos nunca caducan</li><li>✓ Acceso a todos los servicios</li>${pack.bonus?`<li>✓ +${pack.bonus} créditos de bonificación</li>`:''}${!pack.credits?'<li>✓ Uso ilimitado para siempre</li><li>✓ Sin preocuparte por los créditos</li>':''}${pack.savings?`<li>✓ ${fakeCopy(`Ahorra R$ ${pack.savings}`)}</li>`:''}</ul><button class="btn full" type="button">Comprar ahora</button></article>`).join('')}</div><div class="benefits"><span>${fakeCopy('🔒 Pago seguro')}</span><span>⚡ Créditos al instante</span><span>♾️ Nunca caducan</span></div></div>`;
+    }
+    function serviceHeading(service, title, caption) {
+      return `<div class="inline"><span class="service-icon">${icon(service.id)}</span><div><h2>${safe(title)}</h2>${caption?`<p>${safe(caption)}</p>`:''}</div></div>`;
+    }
+    function serviceCost(service) {
+      return location.hash.startsWith('#investigacao/') ? service.directCost||service.cost||0 : service.cost||0;
+    }
+    function serviceEntry(service) {
+      const {id,color}=service;
+      const spec=trackers[id];
+      const instagram=id==='instagram';
+      const gps=id==='localizacao';
+      const phone=spec.field==='phone';
+      const requiresInput=instagram||!!spec.field;
+      const title={instagram:'Investigar Instagram',localizacao:fakeCopy('Descubre por dónde anda tu pareja.'),redes:'Investigar otras redes',whatsapp:fakeCopy(service.title||'Clonar WhatsApp'),camera:fakeCopy(spec.title),sms:'Investigar SMS',facebook:'Facebook'}[id]||spec.title;
+      const captions={instagram:'Descubre seguidores ocultos, conversaciones, acosadores y mucho más.',localizacao:'Consulta la ubicación del celular en tiempo real',chamadas:'Consulta los registros completos de llamadas.',whatsapp:'Monitorea conversaciones, archivos multimedia y llamadas con actualizaciones constantes.',camera:'Ve la cámara y todas las fotos del dispositivo',sms:'Accede al historial completo de mensajes.',facebook:'Investigación de un perfil de Facebook'};
+      const caption=captions[id]?fakeCopy(captions[id]):'';
+      const label=phone?'Número de teléfono de la persona investigada':instagram?'Introduce el nombre de usuario (sin la @)':id==='facebook'?'Pega la URL del perfil (facebook.com/username)':'Nombre de usuario del perfil';
+      const placeholder=phone?'11987654321':instagram?'lucas_silva10':id==='facebook'?label:'nombre_usuario';
+      const tip=instagram?'escribe el nombre tal como aparece en Instagram. No hace falta incluir la @, mayúsculas ni espacios.':spec.tip;
+      const cost=serviceCost(service);
+      const action=gps?'Iniciar rastreo':instagram?'Iniciar investigación':id==='camera'?`Activar cámara por ${cost} créditos`:['chamadas','facebook','redes'].includes(id)&&state.orders[id]!=='ready'?`Iniciar investigación por ${cost} créditos`:'Iniciar investigación';
+      const entryInfo={
+        localizacao:`<div class="entry-info"><strong>🔍 Cómo funciona</strong><p>${fakeCopy('Nuestra tecnología rastrea el celular de la persona investigada e identifica los lugares que frecuenta, lugares sospechosos y patrones de movimiento.')}</p><strong>${fakeCopy('🔒 Confidencial para ti')}</strong><p>${fakeCopy('No se envía ninguna alerta al dispositivo monitoreado. Recibes todo el informe aquí en el panel.')}</p></div>`,
+        camera:`<div class="entry-info"><strong>Función prémium</strong><p>${fakeCopy('Acceso completo a la cámara en directo y a la galería de fotos del dispositivo investigado.')}</p></div>`,
+        facebook:`<div class="entry-info"><strong>🔍 Cómo funciona:</strong><p>${fakeCopy('Pega la URL completa del perfil de Facebook que quieres investigar. Nuestro sistema accederá a la biografía, las publicaciones privadas, los mensajes de Messenger y mucho más.')}</p></div>`
+      }[id]||(tip?`<div class="entry-tip"><strong>Consejo:</strong> ${tip}</div>`:'');
+      return `<div class="service-entry${spec.compact?' compact':''}${gps?' location-entry':''}" style="--accent:${instagram?'#b358ff':color}"><section class="panel">
+        <div class="service-heading" style="--accent:${color}">${serviceHeading(service,title,caption)}</div>
+        ${entryInfo}
+        <form data-analysis="${id}" novalidate>${requiresInput?`<label class="entry-label" for="analysis-handle">${label}</label><div class="entry-input">${id==='facebook'?'':`<span>${phone?'+55':'@'}</span>`}<input id="analysis-handle" name="handle" type="${phone?'tel':'text'}" placeholder="${placeholder}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="${id==='facebook'?120:phone?22:31}" required aria-describedby="handle-error"></div><p class="validation" id="handle-error" role="alert" hidden></p>`:''}
+        <button class="btn action-primary full" type="submit"${requiresInput?' disabled':''}>${gps?icon('localizacao'):''} ${action}</button></form>
+        ${instagram?'<p class="entry-footnote">🎉 Investigación gratuita, sin gastar créditos.</p>':spec.features?`<div class="entry-features">${spec.features.map(([name,description])=>`<article><b>${name.toUpperCase()}</b><p>${fakeCopy(description)}</p></article>`).join('')}</div>`:''}
+        ${id==='facebook'?'<div class="entry-info"><strong>✓ Formatos admitidos:</strong><p>• facebook.com/username<br>• fb.com/username<br>• m.facebook.com/username</p></div>':''}
+        ${id==='redes'?'<a class="report-preview-link" href="#relatorio/redes">(fake) Ver informe</a>':''}
+      </section></div>`;
+    }
+    function trackingContent(service, progress) {
+      const {id}=service;
+      const spec=trackers[id];
+      const analysis=state.analyses[id];
+      const title=id==='instagram'?(analysis?.handle||'Instagram'):fakeCopy(spec.title);
+      const caption=spec.caption ? fakeCopy(spec.caption) : id==='instagram' ? fakeCopy('Analizando el perfil...') : analysis?.handle||'Etapas de la investigación';
+      const cutoff=spec.marks||spec.steps.map((_,i)=>Math.round((i+1)*100/spec.steps.length));
+      const active=cutoff.findIndex(value=>progress<value);
+      const steps=spec.steps.map((text,i)=>{
+        const status=i===active?'current':active===-1||i<active?'done':'';
+        return `<li class="track-step ${status}"${status==='current'?' aria-current="step"':''}><span class="step-indicator" aria-hidden="true">${status==='done'?icon('check'):''}</span>${fakeCopy(text)}</li>`;
+      });
+      return `<div class="service-heading">${serviceHeading(service,title,caption)}<span class="track-percent">${progress}%</span></div>
+        <div class="bar track-meter" role="progressbar" aria-label="Progreso de la investigación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><span style="width:${progress}%"></span></div>
+        <ol class="track-steps">${steps.join('')}</ol>
+        <div class="track-notice"><b>${progress===100?'✓ Investigación completada':fakeCopy(`⌛ ${spec.notice||'Investigación en curso'}`)}</b>${['camera','whatsapp'].includes(id)&&progress<100?`<p>${fakeCopy('Monitoreo activo, con extracción continua y verificaciones manuales.')}</p>`:''}<p>${progress<100&&['camera','whatsapp','redes'].includes(id)?`Tiempo estimado: ${estimate(id,progress)}`:`Progreso: ${progress}%${progress<100?` • Tiempo estimado: ${estimate(id,progress)}`:''}`}</p></div>`;
+    }
+    function trackingPage(service) {
+      const {id,color}=service;
+      const progress=analysisProgress(id);
+      if(progress===null)return serviceEntry(service);
+      if(id==='redes'&&progress===100)return redesReport();
+      if(id==='localizacao'&&progress===100)return `<div class="tracking compact warm">${locationResults()}<button type="button" class="btn cancel-track full" data-action="analysis-cancel:localizacao">Eliminar investigación</button></div>`;
+      const spec=trackers[id];
+      const boost=progress<100?`<button class="btn action-primary full" data-action="boost:${id}">${icon('bolt')} Acelerar por 30 créditos</button>`:'';
+      const cancelLabel=id==='redes'||progress===100?'Eliminar investigación':'Cancelar investigación';
+      const cancel=`<button class="btn cancel-track full" data-action="analysis-cancel:${id}">${cancelLabel}</button>`;
+      const classes=[spec.compact&&'compact',spec.warm&&'warm',spec.roomy&&'roomy'].filter(Boolean).join(' ');
+      return `<div class="tracking ${classes}" style="--accent:${color};--track-color:${spec.warm?color:id==='redes'?'#ff443a':'#a050eb'};--step-color:${spec.warm?color:'#b456ff'};--notice-color:${spec.noticeColor||'#ae57ff'};--percent-color:${spec.warm?'#ba67ff':color}">
+        <section class="panel ${spec.roomy?'roomy':''}"><div data-live-analysis="${id}" data-progress="${progress}">${trackingContent(service,progress)}</div>
+        ${spec.inlineBoost&&boost?`<div class="inline-boost">${boost}</div>`:''}${spec.cancelOutside?'':cancel}</section>
+        ${spec.cancelOutside?cancel:''}${!spec.inlineBoost&&boost?`<section class="accelerate"${id==='localizacao'&&progress<64?' hidden':''}><p>El análisis está tardando...</p>${boost}</section>`:''}
+      </div>`;
+    }
+    function reportSiteAttributes(name) {
+      return `href="${reportSites[name]}" target="_blank" rel="noopener noreferrer" aria-label="${name} · Abrir el sitio oficial en una pestaña nueva"`;
+    }
+    function reportApp([name,mark,background,color,status='Activo'], {absent=false,unlocked=false}={}) {
+      const symbol=Object.hasOwn(iconPaths,mark)?icon(mark):mark;
+      const content=`<span class="report-mark" aria-hidden="true" style="--mark-bg:${background};--mark-color:${color||'#fff'}">${symbol}</span><div><b>${name}</b><small data-status="${absent?'Sin cuenta':status}">${absent?'×':fakeCopy(status)}</small></div>`;
+      return unlocked
+        ? `<a class="report-app report-site-link" ${reportSiteAttributes(name)}>${content}</a>`
+        : `<article class="report-app">${content}</article>`;
+    }
+    function reportUnlockButton(id) {
+      const offer=reportOffers[id];
+      if(state.reportUnlocks.includes(id))return '<button class="report-btn full" type="button" disabled>✓ Paquete desbloqueado</button>';
+      return `<button class="report-btn ${offer.theme} full" type="button" data-action="report-unlock:${id}">${id==='ashley'?icon('reportLock'):''}Desbloquear por ${offer.credits} créditos</button>`;
+    }
+    function reportOfferSection(id, description) {
+      const offer=reportOffers[id];
+      const platforms=reportApps[id];
+      const unlocked=state.reportUnlocks.includes(id);
+      return `<section class="report-panel report-section ${offer.theme}">
+        <h3>${offer.symbol} ${offer.name}</h3>
+        <p class="report-banner">(fake) ⚠ <b>${description}</b> ${id==='adult'?'asociadas':'asociados'} al número ${reportPhone}</p>
+        <div class="report-grid ${id}">${platforms.map(platform=>reportApp(platform,{unlocked})).join('')}</div>
+        <div class="report-offer"><b>${offer.symbol} Paquete completo</b><p>${platforms.map(([name])=>name).join(' + ')}</p>
+          ${unlocked?'<span class="report-unlocked">✓ Registros desbloqueados</span>':''}
+          ${reportUnlockButton(id)}
+        </div>
+      </section>`;
+    }
+    function reportRemainingOffers() {
+      return Object.keys(reportOffers).filter(id=>!state.reportUnlocks.includes(id));
+    }
+    function reportBundle() {
+      const remaining=reportRemainingOffers();
+      const subtotal=remaining.reduce((sum,id)=>sum+reportOffers[id].credits,0);
+      const price=Math.min(90,subtotal);
+      return {remaining,subtotal,price};
+    }
+    function redesReport() {
+      const counts=[
+        [13,'Activos','#11cb98','#041710','#103c30'],[4,'Sospechosos','#f82f36','#1a0708','#451419'],
+        [30,'Sin cuenta','#aab4c2','#111214','#2e3035'],[47,'Total','#ad56fc','#140c1c','#38204c']
+      ];
+      const {subtotal,price}=reportBundle();
+      const sampleFields=[['chamadas','Teléfono',reportPhone,'#b769fb'],['instagram','Instagram','@nombre_usuario','#ec3a8d'],['localizacao','Ubicación','Rastreo GPS','#ff7356']];
+      const ashleyHeading='<span class="report-mark" aria-hidden="true" style="--mark-bg:#fff;--mark-color:#cf266b">AM</span><div><h2>Ashley Madison</h2><p class="report-muted">⚠ Sitio de citas extramatrimoniales</p></div>';
+      const ashleyLink=state.reportUnlocks.includes('ashley')
+        ? `<a class="report-heading report-site-link" ${reportSiteAttributes('Ashley Madison')}>${ashleyHeading}</a>`
+        : `<div class="report-heading">${ashleyHeading}</div>`;
+      return `<div class="net-report" aria-label="(fake) Informe de otras redes">
+        <section class="report-panel search-data">
+          <div class="report-heading"><span class="report-symbol">${icon('user')}</span><div><h2>${fakeCopy('Datos de la búsqueda')}</h2><p class="report-muted">${fakeCopy('Información utilizada para rastrear')}</p></div></div>
+          <div class="report-fields">${sampleFields.map(([glyph,label,value,color])=>`<div class="report-field" style="--field-color:${color}">${icon(glyph)}<div><span>${label}</span><b>${value}</b></div></div>`).join('')}</div>
+        </section>
+        <section class="report-counts" aria-label="Resumen de la búsqueda">${counts.map(([count,label,color,background,border])=>`<div class="report-count" style="--count-color:${color};--count-bg:${background};--count-border:${border}"><strong>${count}</strong><span>${fakeCopy(label)}</span></div>`).join('')}</section>
+        <section class="report-section">
+          <h2>${fakeCopy('📱 Redes sociales encontradas')}</h2>
+          <p class="report-banner">(fake) ✅ <b>Perfiles confirmados</b> asociados al número ${reportPhone}</p>
+          <div class="report-grid social">${reportApps.social.map(platform=>reportApp(platform)).join('')}</div>
+        </section>
+        ${reportOfferSection('dating','4 perfiles encontrados')}
+        ${reportOfferSection('adult','3 cuentas encontradas')}
+        <section class="report-panel report-ashley rose" aria-label="Ashley Madison">
+          ${ashleyLink}
+          <p class="report-banner">(fake) 🔍 <b>Perfil encontrado</b> - Asociado al número ${reportPhone}</p>
+          ${reportUnlockButton('ashley')}
+        </section>
+        <section class="report-section">
+          <h2 class="muted">${fakeCopy('❌ Sin cuentas (30 plataformas)')}</h2>
+          <div class="report-grid missing">${reportApps.missing.map(platform=>reportApp(platform,{absent:true})).join('')}<button type="button" class="report-app more" data-action="report-more">+24 más</button></div>
+        </section>
+        <section class="report-panel report-summary">
+          <span class="report-symbol">${icon('bolt')}</span><h2>PAQUETE COMPLETO</h2>
+          <p class="report-muted">${fakeCopy('Desbloquea TODOS los perfiles sospechosos')}</p>
+          <p class="report-muted">Sitios de citas + Contenido para adultos + Ashley Madison</p>
+          <div class="report-price">${subtotal>price?`<del>${subtotal} créditos</del>`:''}<strong>${price||'✓'}</strong><span class="report-muted">${price?'créditos':'Paquetes desbloqueados'}</span>${subtotal>price?`<div class="report-savings">¡AHORRA ${subtotal-price} CRÉDITOS!</div>`:''}</div>
+          <button type="button" class="report-btn full" data-action="report-unlock:bundle"${price?'':' disabled'}>${price?`🔥 DESBLOQUEAR TODO - ${price} CRÉDITOS`:'✓ PAQUETE COMPLETO DESBLOQUEADO'}</button>
+        </section>
+        <button type="button" class="btn report-remove full" data-action="analysis-cancel:redes">${icon('reportTrash')} Eliminar investigación</button>
+      </div>`;
+    }
+    function unlockReport(id) {
+      const bundle=id==='bundle';
+      const offer=reportOffers[id];
+      if(!bundle&&!offer)return;
+      if(state.reportUnlocks.includes(id))return;
+      const pack=bundle?reportBundle():{remaining:[id],price:offer.credits};
+      if(!pack.price)return;
+      confirmCredit(pack.price,bundle?'Paquete completo de otras redes':offer.name,()=>{
+        state.reportUnlocks.push(...pack.remaining);
+        save();render();notify('Paquete desbloqueado.');
+      },'desbloquear este paquete');
+    }
+    function mapUrls(point, detail=true) {
+      const {lat,lon}=point;
+      const deltaLat=detail ? 0.004 : 0.14;
+      const deltaLon=detail ? 0.007 : 0.23;
+      const box=[Math.max(-180,lon-deltaLon),Math.max(-85,lat-deltaLat),Math.min(180,lon+deltaLon),Math.min(85,lat+deltaLat)].map(n=>n.toFixed(5)).join(',');
+      const query=new URLSearchParams({bbox:box,layer:'mapnik',marker:`${lat},${lon}`});
+      return {embed:`https://www.openstreetmap.org/export/embed.html?${query}`,full:`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=${detail?16:11}/${lat}/${lon}`};
+    }
+    function cityKey(name) {
+      return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+    }
+    function locationCity() {
+      return state.locationMap.city||{...mapCities[0],source:'exemplo'};
+    }
+    function locationPoints(city) {
+      const center={...city,name:`Centro de ${city.name}`};
+      return cityKey(city.name)==='sao paulo'?[center,...publicPoints]:[center];
+    }
+    function stopCityLookup() {
+      cityLookup?.abort();
+      cityLookup=null;
+    }
+    async function cityJson(url, signal) {
+      const response=await fetch(url,{signal,credentials:'omit',referrerPolicy:'no-referrer',cache:'no-store'});
+      if(!response.ok)throw Error('No se pudo consultar la ciudad.');
+      return response.json();
+    }
+    async function findPublicCity(location, signal) {
+      const {city,country_code,region}=location;
+      if(typeof city!=='string'||city.trim().length<2||city.length>100)throw Error('El servicio no devolvió ninguna ciudad.');
+      const key=cityKey(city);
+      if(country_code==='BR'){
+        const known=mapCities.find(item=>cityKey(item.name)===key);
+        if(known)return known;
+      }
+      const query=new URLSearchParams({name:city,count:'12',language:'en'});
+      if(/^[A-Z]{2}$/.test(country_code))query.set('countryCode',country_code);
+      const payload=await cityJson(`https://geocoding-api.open-meteo.com/v1/search?${query}`,signal);
+      const matches=(payload.results||[]).filter(item=>cityKey(item.name)===key&&Number.isFinite(item.latitude)&&Math.abs(item.latitude)<85&&Number.isFinite(item.longitude)&&Math.abs(item.longitude)<=180);
+      const matchedRegion=region&&matches.find(item=>cityKey(item.admin1)===cityKey(region));
+      const place=matchedRegion||(matches.length===1?matches[0]:null);
+      if(!place)throw Error('No se pudo identificar el centro de la ciudad.');
+      return {name:place.name,lat:Number(place.latitude.toFixed(4)),lon:Number(place.longitude.toFixed(4))};
+    }
+    async function detectLocationCity(button) {
+      if(analysisProgress('localizacao')!==100||cityLookup)return;
+      const lookup=new AbortController();
+      cityLookup=lookup;
+      const status=document.querySelector('#city-status');
+      button.disabled=true;
+      status.textContent='Buscando la ciudad aproximada…';
+      const deadline=setTimeout(()=>lookup.abort(),8500);
+      try {
+        const info=await cityJson('https://get.geojs.io/v1/ip/geo.json',lookup.signal);
+        const city=await findPublicCity(info,lookup.signal);
+        if(cityLookup!==lookup)return;
+        state.locationMap.city={...city,source:'conexao'};
+        cityLookup=null;
+        save();render();
+        document.querySelector('#city-status').textContent=`Mapa centrado en ${city.name}.`;
+      } catch {
+        if(cityLookup!==lookup)return;
+        cityLookup=null;
+        const control=document.querySelector('[data-action="map-detect"]');
+        if(control)control.disabled=false;
+        const feedback=document.querySelector('#city-status');
+        if(feedback)feedback.textContent='No se pudo detectar la ciudad. Elige una opción de la lista.';
+      } finally {
+        clearTimeout(deadline);
+      }
+    }
+    function unlockLocationMap() {
+      if(analysisProgress('localizacao')!==100||state.locationMap.detail)return;
+      confirmCredit(mapDetailCost,'Zoom detallado del mapa',()=>{
+        state.locationMap.detail=true;
+        save();render();notify('Zoom detallado desbloqueado.');
+      },'desbloquear el mapa detallado');
+    }
+    function selectMapPoint(index) {
+      if(!state.locationMap.detail)return;
+      const point=locationPoints(locationCity())[index];
+      if(!point)return;
+      const urls=mapUrls(point);
+      const frame=document.querySelector('#map-frame');
+      const link=document.querySelector('#map-link');
+      frame.src=urls.embed;
+      frame.title=`Mapa público: ${point.name}`;
+      link.href=urls.full;
+      document.querySelectorAll('.map-points button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+    }
+    function locationResults() {
+      const city=locationCity();
+      const detail=state.locationMap.detail;
+      const urls=mapUrls(city,detail);
+      const points=locationPoints(city);
+      const cityIndex=mapCities.findIndex(item=>cityKey(item.name)===cityKey(city.name));
+      const sourceLabel=city.source==='conexao'?'Ciudad aproximada según la IP de esta conexión':city.source==='manual'?'Ciudad seleccionada manualmente':'Ciudad predeterminada';
+      return `<section class="panel city-map"><h2>${fakeCopy('Rastreo en tiempo real')}</h2>
+        <div class="city-tools"><div class="city-choice"><label for="map-city">Ciudad</label><select id="map-city">${cityIndex===-1?`<option value="" selected>${safe(city.name)}</option>`:''}${mapCities.map((item,index)=>`<option value="${index}"${index===cityIndex?' selected':''}>${item.name}</option>`).join('')}</select><button type="button" class="btn secondary" data-action="map-detect"${cityLookup?' disabled':''}>Usar la ciudad de esta conexión</button></div>
+          <p>La consulta a <a href="https://www.geojs.io/docs/v1/endpoints/geo/" target="_blank" rel="noopener noreferrer">GeoJS</a> usa la IP pública de esta conexión para estimar la ciudad.</p><p id="city-status" role="status">${cityLookup?'Buscando la ciudad aproximada…':''}</p>
+        </div>
+        <div class="map${detail?'':' city-map-preview'}"><iframe id="map-frame" src="${safe(urls.embed)}" title="Mapa público de ${safe(city.name)}" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups"${detail?'':' inert tabindex="-1"'}></iframe>
+          ${detail?'':'<button type="button" class="map-zoom-lock" data-action="map-unlock" aria-label="Desbloquear el zoom del mapa"><span aria-hidden="true">+</span><small aria-hidden="true">🔒</small></button>'}
+        </div>
+        <p class="map-caption">${safe(city.name)} · ${sourceLabel} · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a>${detail?` · <a href="${safe(urls.full)}" id="map-link" target="_blank" rel="noopener noreferrer">Abrir en OpenStreetMap ↗</a>`:''}</p>
+        ${detail?'<p class="map-caption map-detail-label">✓ Zoom detallado desbloqueado</p>':`<div class="map-unlock"><p>La vista general muestra el centro de la ciudad. Desbloquea el zoom y los puntos públicos para explorar el mapa.</p><button type="button" class="btn action-primary full" data-action="map-unlock">${icon('reportLock')} Desbloquear el mapa detallado por ${mapDetailCost} créditos</button></div>`}
+      </section><section class="panel"><h3>${fakeCopy('📍 Ubicaciones encontradas')}</h3>${detail?`<div class="list-rows map-points">${points.map((point,i)=>`<button type="button" data-action="map-point:${i}" aria-pressed="${i===0}">${icon('localizacao')} ${safe(point.name)}</button>`).join('')}</div>`:'<p class="map-caption">Los puntos públicos aparecen al desbloquear el mapa detallado.</p>'}</section><section class="panel"><h3>📊 Datos por ciudad</h3><div class="list-rows"><div>${safe(city.name)} · ${sourceLabel}</div></div></section>`;
+    }
+    function detectivePage() {
+      const numbered = steps => `<ol class="det-steps">${steps.map(([name,caption],i)=>`<li><span>${i+1}</span><div><strong>${name}</strong><p>${fakeCopy(caption)}</p></div></li>`).join('')}</ol>`;
+      const included = [['user','Detective real','Profesional con experiencia'],['whatsapp','WhatsApp 24/7','Soporte directo'],['camera','Informe en PDF','Documento completo'],['spark','Actualizaciones en tiempo real','Sigue todo el proceso'],['check','Capturas y pruebas','Pruebas claras'],['detetive','Análisis completo','Comportamiento en detalle']];
+      const orderStages = [[fakeCopy('¿Ya lo contrataste? El detective te llama AHORA'),'Recopila datos de tu pareja y comienza'],[fakeCopy('Recibes actualizaciones constantes'),'Contacto directo con el detective por WhatsApp 24/7'],['Tú decides cuándo parar','Continúa hasta tener TODAS las respuestas']];
+      return `<div class="detective">
+        <section class="panel det-hero"><div class="det-icon">${icon('user')}</div><h2>Detective privado profesional</h2><p>${fakeCopy('Investigación real con personas reales')}</p><div class="det-chips"><span class="badge ok">${fakeCopy('Investigación real')}</span><span class="badge">${fakeCopy('100% Confidencial')}</span></div><div class="det-ribbon">${fakeCopy('💎 Nuestro servicio más completo y profesional')}</div></section>
+        <section class="panel"><h3>🎯 Cómo funciona la investigación</h3>${numbered(detectiveSteps)}<div class="det-ribbon">${fakeCopy('📱 Puedes seguir todo en tiempo real por el WhatsApp del detective')}</div></section>
+        <section class="det-section" aria-labelledby="det-pratica"><div class="det-section-title det-practice-title"><h3 id="det-pratica">${icon('sms')} Mira cómo funciona en la práctica</h3></div>${detectivePhone()}<div class="det-ribbon det-practice-note">(fake) <b>Técnica profesional:</b> El detective usa un perfil falso convincente y aplica técnicas psicológicas para poner a prueba la fidelidad de la persona investigada</div></section>
+        <section class="det-section"><div class="det-section-title"><h3>Elige tu investigación</h3><p>${fakeCopy('Cuanto más completa sea la investigación, más posibilidades tendrás de obtener todas las pruebas')}</p></div>${detectivePlans.map((plan,i)=>`<article class="panel det-plan ${plan.tone}">${plan.tag?`<span class="badge plan-tag">${plan.tone==='advanced'?fakeCopy(plan.tag):plan.tag}</span>`:''}<div class="row spread"><div><h3>${plan.name}</h3><p>${fakeCopy(plan.caption)}</p></div><div class="price">${plan.cost}<small>créditos</small></div></div>${plan.includes?`<div class="det-ribbon">${plan.includes}</div>`:''}<ul class="det-features">${plan.items.map(item=>`<li>${icon('check')} ${fakeCopy(item)}</li>`).join('')}</ul>${plan.note?`<div class="det-ribbon">${fakeCopy(plan.note)}</div>`:''}<button class="btn full" data-action="plan:${i}">Contratar ${plan.name}</button></article>`).join('')}</section>
+        ${state.plans.length?`<section class="panel"><h3>(fake) Planes contratados</h3><div class="list-rows">${state.plans.map(plan=>`<div>${safe(savedLabel(plan))}</div>`).join('')}</div></section>`:''}
+        <section class="det-section"><div class="det-section-title"><h2>Qué incluye el servicio</h2><p>${fakeCopy('Todo lo que necesitas para descubrir la verdad')}</p></div><div class="det-included">${included.map(([glyph,label,caption])=>`<article><div class="det-icon">${icon(glyph)}</div><strong>${fakeCopy(label)}</strong><small>${caption}</small></article>`).join('')}</div></section>
+        <section class="panel det-green"><div class="row spread"><h3>${icon('bolt')} ¿Cómo funciona?</h3><span class="badge ok">${fakeCopy('⚡ INICIO INMEDIATO')}</span></div><div class="det-ribbon">${fakeCopy('🚀 La investigación comienza AHORA')}</div><p class="space">(fake) En cuanto contrates el servicio, el detective se pondrá en contacto para recopilar información sobre tu pareja y <strong>comenzará de inmediato</strong></p>${numbered(orderStages)}<p class="space">${fakeCopy('✓ La investigación continúa hasta que estés 100 % satisfecho')}</p></section>
+        <section class="det-section det-faq"><div class="det-section-title"><h2>Preguntas frecuentes</h2><p>Resuelve tus dudas sobre el servicio</p></div>${detectiveQuestions.map(([q,a])=>`<details><summary>${q}</summary><p>${fakeCopy(a)}</p></details>`).join('')}</section>
+        <section class="panel det-green center"><div class="det-icon">${icon('check')}</div><span class="badge ok">${fakeCopy('✓ GARANTIZADO')}</span><h3>${fakeCopy('100 % garantizado')}</h3><p>(fake) Si no conseguimos contactar con la persona o recopilar información relevante en <strong>15 días</strong>, te devolvemos <strong>el 100 % de los créditos</strong>.</p><p>${fakeCopy('🎯 Tasa de éxito: 98%')}</p></section>
+        <section class="det-review" aria-label="(fake) Carrusel de testimonios"><p>(fake) <span class="rating">⭐⭐⭐⭐⭐</span> <span class="muted">Valoración de 4,9/5 • +2.847 clientes</span></p><div id="det-review-copy" aria-live="polite"><blockquote>${fakeCopy(detectiveReviews[review][0])}</blockquote><cite>${detectiveReviews[review][1]}</cite></div><div class="det-dots">${detectiveReviews.map((_,i)=>`<button data-action="review:${i}" aria-label="Testimonio ${i+1}" aria-current="${i===review}"></button>`).join('')}</div></section>
+      </div>`;
+    }
+    function detectiveChatMoment(elapsed) {
+      const next=detectiveMessages.findIndex(message=>message.at>elapsed);
+      if(next===-1)return {count:detectiveMessages.length,typing:null,finished:elapsed>=detectiveNoticeAt,nextAt:elapsed<detectiveNoticeAt?detectiveNoticeAt:null};
+      const message=detectiveMessages[next];
+      const isTyping=elapsed>=message.typingAt;
+      return {count:next,typing:isTyping?message.side:null,finished:false,nextAt:isTyping?message.at:message.typingAt};
+    }
+    function detectivePhone() {
+      const moment=detectiveChatMoment(chatStartedAt===null?-1:Date.now()-chatStartedAt);
+      return `<div class="det-phone" id="detective-phone" tabindex="-1" aria-label="(fake) Conversación">
+        <div class="det-phone-head"><span class="det-contact" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/></svg></span><div><strong>(fake) Persona investigada</strong><small>En línea</small></div></div>
+        <div class="det-chat" id="det-chat"><div class="det-message-list" id="det-messages" role="log" aria-label="Mensajes de la conversación" aria-live="polite">
+          ${detectiveMessages.map(({side,text,time,emphasis},index)=>{const copy=safe(index>=8?fakeCopy(text):text);return `<div class="det-bubble ${side}" data-chat-message${index>=moment.count?' hidden':''}>${emphasis?`<strong>${copy}</strong>`:copy}<time>${time}</time></div>`;}).join('')}
+          <div id="det-typing" class="det-bubble det-typing ${moment.typing||''}" role="status" aria-label="Escribiendo"${moment.typing?'':' hidden'}><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i></div>
+          <div class="det-chat-result" id="det-chat-result"${moment.finished?'':' hidden'}><strong>${fakeCopy('🚨 INFIDELIDAD CONFIRMADA')}</strong><small>${fakeCopy('Prueba enviada de inmediato')}</small></div>
+        </div></div>
+        <div class="det-play"${chatStartedAt===null?'':' hidden'}><button type="button" class="btn" data-action="chat-start">🎬 Ver conversación</button><small>Mira cómo trabaja el detective en la práctica</small></div>
+      </div>`;
+    }
+    function updateDetectiveChat() {
+      clearTimeout(chatTimer);
+      const phone=document.querySelector('#detective-phone');
+      if(!phone||chatStartedAt===null)return;
+      const elapsed=Date.now()-chatStartedAt;
+      const moment=detectiveChatMoment(elapsed);
+      phone.querySelector('.det-play').hidden=true;
+      phone.querySelectorAll('[data-chat-message]').forEach((bubble,index)=>{bubble.hidden=index>=moment.count;});
+      const typing=phone.querySelector('#det-typing');
+      typing.classList.toggle('outgoing',moment.typing==='outgoing');
+      typing.hidden=!moment.typing;
+      phone.querySelector('#det-chat-result').hidden=!moment.finished;
+      const chat=phone.querySelector('#det-chat');
+      chat.scrollTop=chat.scrollHeight;
+      if(moment.nextAt!==null)chatTimer=setTimeout(updateDetectiveChat,Math.max(1,moment.nextAt-elapsed));
+    }
+    function startDetectiveChat() {
+      if(chatStartedAt!==null)return;
+      chatStartedAt=Date.now();
+      updateDetectiveChat();
+      document.querySelector('#detective-phone').focus({preventScroll:true});
+    }
+    function stopDetectiveChat() {
+      clearTimeout(chatTimer);
+      chatStartedAt=null;
+    }
+    function showReview(index) {
+      review=index;
+      const [copy,author]=detectiveReviews[index];
+      document.querySelector('#det-review-copy blockquote').textContent=fakeCopy(copy);
+      document.querySelector('#det-review-copy cite').textContent=author;
+      document.querySelectorAll('.det-dots button').forEach((button,i)=>button.setAttribute('aria-current',String(i===index)));
+    }
+    function profilePage() {
+      const {n,gained,target} = levelInfo();
+      const firstSpy=canClaimFirstSpy()||state.firstSpyClaimed;
+      const achievements=[['Embajador','<button class="btn secondary" data-action="profile-share">Compartir ahora</button>'],['Primer caso',state.firstSpyClaimed?'<span class="badge ok">✓ Recompensa canjeada</span>':firstSpy?'<button class="btn" data-action="claim-first-spy">Canjear 10 créditos</button>':'<span class="badge">Pendiente</span>'],...['Investigador','Detective','Maestro espía'].map((label,index)=>[label,`<span class="badge ${n>=[2,3,5][index]?'ok':''}">${n>=[2,3,5][index]?'Desbloqueada':'Pendiente'}</span>`])];
+      const count=Number(firstSpy)+[2,3,5].filter(level=>n>=level).length;
+      return `<div class="narrow"><section class="panel"><div class="row spread"><h2>${safe(state.name)}</h2><button class="btn secondary" data-action="profile-edit">Editar</button></div><p>Nivel ${n} · Créditos ${balance()} · XP ${state.xp}</p><h3 class="space">${target?`Progreso hacia el nivel ${n+1}`:'Nivel máximo'}</h3><p>${target?`${gained}/${target} XP`:`${state.xp} XP`}</p>${bar(target?Math.round(gained/target*100):100,'XP del nivel')}</section><section class="panel"><h3>🏆 Logros (${count}/5)</h3><div class="list-rows">${achievements.map(([label,control])=>`<div class="row spread"><h4>${label}</h4>${control}</div>`).join('')}</div></section><section class="panel"><h3>Historial de créditos</h3><div class="list-rows">${state.ledger.map(item=>`<div class="row spread"><span>${safe(savedLabel(item.label))}</span><b>${item.change>0?'+':''}${formatNumber.format(item.change)}</b></div>`).join('') || '<p>Todavía no hay movimientos de créditos.</p>'}</div><div class="actions"><button class="btn secondary" data-action="signout">Cerrar sesión</button><button class="btn danger" data-action="reset">Restaurar panel</button></div></section></div>`;
+    }
+    function canClaimFirstSpy() {
+      return Object.keys(trackers).some(id=>analysisProgress(id)===100);
+    }
+    function rewardsPage() {
+      const {n}=levelInfo();
+      return `<div class="narrow"><div class="intro"><h2>Sistema de niveles</h2><p>Sube de nivel y desbloquea beneficios exclusivos</p></div><section class="panel stack">${levels.map((level,i)=>`<section><div class="row spread"><div><h3>Nivel ${i+1} - ${level.name}</h3><p>${level.xp?`Requiere ${level.xp} XP`:'Desbloqueado desde el inicio'}</p></div>${n===i+1?'<span class="badge">⚡ Nivel actual</span>':''}</div><ul class="muted">${level.benefits.map(benefit=>`<li>${fakeCopy(benefit)}</li>`).join('')}</ul></section>`).join('')}</section><section class="panel"><h3>🎯 Cómo ganar XP</h3><div class="list-rows"><div class="row spread">Iniciar una investigación <b>+10-30 XP</b></div><div class="row spread">Acelerar una investigación <b>${fakeCopy('+20-30 XP')}</b></div><div class="row spread">Completar una investigación <b>${fakeCopy('+50 XP')}</b></div></div></section></div>`;
+    }
+    function helpPage() {
+      return `<div class="narrow"><div class="intro"><h2>¿Cómo podemos ayudarte?</h2><p>Preguntas frecuentes sobre la plataforma</p></div><section class="panel faq">${faq.map(([q,a,isFake])=>`<details><summary>${q}</summary><p>${isFake?fakeCopy(a):a}</p></details>`).join('')}</section><section class="panel"><h3>¿Todavía tienes dudas?</h3><p>${fakeCopy('Contacta con nuestro equipo de soporte por WhatsApp')}</p><div class="actions"><button class="btn secondary" data-action="support">Contactar con soporte</button></div></section></div>`;
+    }
+    function authField(id,label,placeholder,glyph,type='text',attributes='') {
+      const password=type==='password';
+      return `<div class="auth-field">
+        <label for="${id}">${label}</label>
+        <div class="auth-input">${icon(glyph)}<input id="${id}" type="${type}" placeholder="${placeholder}" ${type==='email'?'autocapitalize="none" spellcheck="false" maxlength="254"':''} ${attributes} required>
+          ${password?`<button class="auth-eye" type="button" data-action="auth-password" aria-controls="${id}" aria-label="Mostrar contraseña" aria-pressed="false">${icon('authEye')}</button>`:''}
+        </div>
+      </div>`;
+    }
+    const accountLogo=`<svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="28" height="28" rx="8" stroke="#f6f4fb" stroke-width="2"/><circle cx="17" cy="17.5" r="8.6" stroke="#926bff" stroke-width="1.9"/><path d="m23 24 10 5M9 14a9 9 0 0 1 5-5" stroke="#926bff" stroke-width="1.9" stroke-linecap="round"/><path d="M9 9h3" stroke="#f6f4fb" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+    function welcomePage() {
+      return `<section class="welcome-card" aria-labelledby="welcome-title">
+        <span class="welcome-logo">${accountLogo}</span>
+        <h1 id="welcome-title">Te damos la bienvenida a <strong>Insta Pro</strong></h1>
+        <span class="welcome-confetti" aria-hidden="true">🎉</span>
+        <div class="welcome-balance"><span>Empiezas con<br>un saldo de</span><strong>${formatNumber.format(account.startingCredits)} créditos</strong></div>
+        <p class="welcome-description">¡Ya puedes explorar todas las funciones de la plataforma!</p>
+        <button class="btn auth-submit full" type="button" data-action="finish-welcome">Empezar <span aria-hidden="true">›</span></button>
+        <p class="welcome-error" role="status" hidden></p>
+      </section>`;
+    }
+    function authPage(register) {
+      const logo=`<div class="auth-logo" aria-label="Insta Pro">${accountLogo}<span>Insta <strong>Pro</strong></span></div>`;
+      const title=register?'Crea tu <strong>cuenta</strong>':'Inicia sesión en <strong>Insta Pro</strong>';
+      const description=register?'Completa tus datos para empezar':'Inicia sesión con tu cuenta para continuar';
+      const alternate=register?'¿Ya tienes una cuenta? <a href="#login">Iniciar sesión</a>':'¿Todavía no tienes una cuenta? <a href="#cadastro">Crear cuenta</a>';
+      return `<div class="auth-page${register?' register':''}">
+        ${logo}
+        <section class="auth-card" aria-labelledby="auth-title">
+          <h1 id="auth-title">${title}</h1><p>${description}</p>
+          <form class="auth-form" data-auth-form="${register?'cadastro':'login'}" aria-describedby="auth-note" autocomplete="off">
+            ${register?authField('auth-name','Nombre completo','Tu nombre completo','user','text','autocomplete="name" maxlength="100"'):''}
+            ${authField('auth-email','Correo electrónico','tu@correo.com','authMail','email',register?'autocomplete="email"':'autocomplete="username"')}
+            ${register?authField('auth-confirm-email','Confirmar correo electrónico','confirma@correo.com','authMail','email','autocomplete="off"'):''}
+            ${authField('auth-password','Contraseña',register?'Crea una contraseña segura':'Tu contraseña','reportLock','password',register?'autocomplete="new-password" minlength="8" maxlength="128"':'autocomplete="current-password" maxlength="128"')}
+            <button class="btn auth-submit full" type="submit">${icon(register?'spark':'authEnter')} ${register?'Crear cuenta':'Iniciar sesión'}</button>
+            <p class="auth-feedback" role="status" hidden></p>
+          </form>
+        </section>
+        <div class="auth-links"><p>${alternate}</p><p class="auth-note" id="auth-note">Cuenta local en este navegador. Usa una contraseña exclusiva para este panel.</p></div>
+      </div>`;
+    }
+    function toggleAuthPassword(button) {
+      const input=document.getElementById(button.getAttribute('aria-controls'));
+      const visible=input.type==='password';
+      input.type=visible?'text':'password';
+      button.setAttribute('aria-pressed',String(visible));
+      button.setAttribute('aria-label',visible?'Ocultar contraseña':'Mostrar contraseña');
+      button.innerHTML=icon(visible?'authEyeOff':'authEye');
+    }
+    const normalizeEmail = value => value.trim().toLowerCase();
+
+    async function derivePassword(password,salt,iterations) {
+      if(!globalThis.crypto?.subtle)throw Error('Abre el archivo en un navegador compatible con el cifrado local.');
+      const input=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);
+      const result=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new Uint8Array(salt),iterations},input,256);
+      return Array.from(new Uint8Array(result),byte=>byte.toString(16).padStart(2,'0')).join('');
+    }
+    async function createLocalAccount(name,email,password) {
+      if(!name.trim())throw Error('Introduce tu nombre completo.');
+      if(password.length<8||password.length>128)throw Error('Usa entre 8 y 128 caracteres en la contraseña.');
+      if(readAccounts().some(entry=>entry.email===email))throw Error('Ya existe una cuenta con ese correo electrónico.');
+      if(!globalThis.crypto?.subtle)throw Error('Abre el archivo en un navegador compatible con el cifrado local.');
+      const salt=Array.from(crypto.getRandomValues(new Uint8Array(16)));
+      const verifier=await derivePassword(password,salt,passwordRounds);
+      // Re-read after deriving the verifier in case another tab saved a registration.
+      const accounts=readAccounts();
+      if(accounts.some(entry=>entry.email===email))throw Error('Ya existe una cuenta con ese correo electrónico.');
+      const entry={name:name.trim(),email,salt,verifier,iterations:passwordRounds,startingCredits:signupCredits,welcomePending:true};
+      accounts.push(entry);
+      localStorage.setItem(accountsKey,JSON.stringify(accounts));
+      return entry;
+    }
+    async function verifyLocalAccount(email,password) {
+      const entry=readAccounts().find(candidate=>candidate.email===email);
+      if(!entry||await derivePassword(password,entry.salt,entry.iterations)!==entry.verifier)throw Error('Correo electrónico o contraseña incorrectos.');
+      return entry;
+    }
+    function openAccount(entry) {
+      sessionStorage.setItem(sessionKey,entry.email);
+      account=entry;
+      state=load();
+      go(entry.welcomePending?'boas-vindas':'painel');
+    }
+    function finishWelcome() {
+      if(!account?.welcomePending)return;
+      try {
+        const accounts=readAccounts();
+        const index=accounts.findIndex(entry=>entry.email===account.email);
+        if(index===-1)throw Error('Cuenta local no disponible.');
+        const updated={...accounts[index],welcomePending:false};
+        accounts[index]=updated;
+        localStorage.setItem(accountsKey,JSON.stringify(accounts));
+        account=updated;
+        go('painel');
+      } catch {
+        const feedback=document.querySelector('.welcome-error');
+        feedback.textContent='No se pudo guardar el progreso. Inténtalo de nuevo.';
+        feedback.hidden=false;
+      }
+    }
+    function closeAccount() {
+      stopCityLookup();
+      save();
+      try { sessionStorage.removeItem(sessionKey); } catch { /* No stored session is accessible. */ }
+      account=null;
+      state=load();
+      go('login');
+    }
+    async function submitLocalAuth(form) {
+      const button=form.querySelector('.auth-submit');
+      if(button.disabled)return;
+      const feedback=form.querySelector('.auth-feedback');
+      const email=normalizeEmail(form.querySelector('#auth-email').value);
+      const password=form.querySelector('#auth-password');
+      const confirmEmail=form.querySelector('#auth-confirm-email');
+      feedback.hidden=true;
+      feedback.classList.remove('error');
+      button.disabled=true;
+      form.setAttribute('aria-busy','true');
+      try {
+        if(confirmEmail){
+          if(normalizeEmail(confirmEmail.value)!==email){
+            confirmEmail.focus();
+            throw Error('Los correos electrónicos deben coincidir.');
+          }
+          const entry=await createLocalAccount(form.querySelector('#auth-name').value,email,password.value);
+          if(form.isConnected)openAccount(entry);
+        } else {
+          const entry=await verifyLocalAccount(email,password.value);
+          if(form.isConnected)openAccount(entry);
+        }
+      } catch(error) {
+        feedback.textContent=error instanceof Error&&error.name==='Error'?error.message:'El navegador no pudo guardar o consultar los datos locales.';
+        feedback.classList.add('error');
+        feedback.hidden=false;
+      } finally {
+        password.value='';
+        const eye=form.querySelector('.auth-eye');
+        if(eye.getAttribute('aria-pressed')==='true')toggleAuthPassword(eye);
+        button.disabled=false;
+        form.removeAttribute('aria-busy');
+      }
+    }
+    function render() {
+      const [route,id] = location.hash.slice(1).split('/');
+      const service=services.find(item=>item.id===id);
+      let view;
+      let title;
+      if(account?.welcomePending&&route!=='boas-vindas'&&route!=='login'&&route!=='cadastro'){
+        go('boas-vindas');
+        return;
+      }
+      if(route==='boas-vindas'){
+        if(!account?.welcomePending){go(account?'painel':'login');return;}
+        document.body.dataset.view=route;
+        header.hidden=true;
+        footer.hidden=true;
+        main.innerHTML=welcomePage();
+        document.title='Bienvenida | Insta Pro';
+        return;
+      }
+      if(!account&&hasLocalAccounts()&&route!=='login'&&route!=='cadastro'){
+        go('login');
+        return;
+      }
+      if(route==='login'||route==='cadastro'){
+        document.body.dataset.view=route;
+        header.hidden=true;
+        footer.hidden=true;
+        main.innerHTML=authPage(route==='cadastro');
+        document.title=`${route==='cadastro'?'Registro':'Inicio de sesión'} | Insta Pro`;
+        return;
+      }
+      header.hidden=false;
+      footer.hidden=false;
+      if (route==='creditos') {title='Comprar créditos'; view=storePage();}
+      else if (route==='perfil') {title='Perfil'; view=profilePage();}
+      else if (route==='recompensas') {title='Niveles'; view=rewardsPage();}
+      else if (route==='ajuda') {title='Centro de ayuda'; view=helpPage();}
+      else if (route==='sessao') {title='Sesión';view='<div class="narrow"><div class="panel"><h2>Sesión cerrada</h2><div class="actions"><a class="btn" href="#painel">Volver al panel</a></div></div></div>';}
+      else if (route==='relatorio'&&id==='redes') {title='Otras redes';view=redesReport();}
+      else if (service && (route==='servico'||route==='investigacao')) {
+        title=id==='localizacao'?service.title:service.name;
+        view=id==='detetive'?detectivePage():trackingPage(service);
+      } else view=dashboard();
+      document.body.dataset.view=id||route||'painel';
+      header.innerHTML=headerHtml(title,!!service);
+      main.innerHTML=view;
+      footer.innerHTML=footerHtml();
+      document.title=title?`${title} | Insta Pro`:'Insta Pro';
+      if(id==='detetive'&&chatStartedAt!==null)updateDetectiveChat();
+      if(!title&&state.rewardPending&&!dialog.open)showLevelPrize();
+    }
+    function refreshProgress() {
+      if(dialog.open||document.hidden)return;
+      const region=document.querySelector('[data-live-analysis]');
+      if(!region){
+        for(const contract of document.querySelectorAll('[data-live-contract]')){
+          const progress=analysisProgress(contract.dataset.liveContract);
+          const meter=contract.querySelector('[role="progressbar"]');
+          if(String(progress)===meter.getAttribute('aria-valuenow'))continue;
+          meter.setAttribute('aria-valuenow',String(progress));
+          meter.firstElementChild.style.width=`${progress}%`;
+          const badge=contract.querySelector('.badge');
+          badge.textContent=progress===100?'✓ Completado':`${progress}%`;
+          badge.classList.toggle('ok',progress===100);
+          badge.classList.toggle('active',progress<100);
+          meter.hidden=progress===100;
+        }
+        return;
+      }
+      const id=region.dataset.liveAnalysis;
+      const progress=analysisProgress(id);
+      if(progress===null||String(progress)===region.dataset.progress)return;
+      if(progress===100){render();return;}
+      const service=services.find(item=>item.id===id);
+      region.dataset.progress=String(progress);
+      region.innerHTML=trackingContent(service,progress);
+      if(id==='localizacao'&&progress>=64)document.querySelector('.accelerate').hidden=false;
+    }
+    function policy(id) {
+      const policies={termos:['Términos de uso','La marca «(fake)» indica que el servicio se representa dentro del panel. Los créditos son de uso interno.'],privacidade:['Política de privacidad y cookies','El nombre, el correo electrónico, el verificador de la contraseña y los datos de cada panel se guardan en este navegador. Si eliges detectar la ciudad, el navegador consulta GeoJS con la IP de la conexión. Si hace falta, Open-Meteo recibe el nombre de la ciudad y el país para localizar el centro de la ciudad. El panel guarda la ciudad y el centro elegidos y los muestra con OpenStreetMap.'],lgpd:['LGPD','El botón Restaurar panel, en el perfil, elimina el historial del panel y restaura el saldo y los datos iniciales.']};
+      const [title,body]=policies[id];
+      modal(title,`<p>${body}</p>`);
+    }
+    function handleAction(type,id,button) {
+      switch (type) {
+        case 'menu': {const menu=document.querySelector('#menu');menu.hidden=!menu.hidden;button.setAttribute('aria-expanded',String(!menu.hidden));break;}
+        case 'back': go('painel');break;
+        case 'close': dialog.close();break;
+        case 'approve': {const action=approve;approve=undefined;dialog.close();action?.();break;}
+        case 'service': go(`servico/${id}`);break;
+        case 'report-unlock': unlockReport(id);break;
+        case 'report-more': modal('Sin cuentas en otras 24 plataformas',`<ul class="report-more-list">${otherReportApps.map(name=>`<li>${name}</li>`).join('')}</ul>`);break;
+        case 'plan': {const plan=detectivePlans[Number(id)];confirmCredit(plan.cost,plan.name,()=>{state.plans.push(plan.name);gainXp(10);save();render();notify(fakeCopy('Plan contratado.'));});break;}
+        case 'boost': {
+          const service=services.find(item=>item.id===id);
+          if(state.analyses[id]&&analysisProgress(id)<100)confirmCredit(30,`Acelerar ${service.name}`,()=>{
+            state.analyses[id].boost=(state.analyses[id].boost||0)+30;
+            save();render();
+          });
+          break;
+        }
+        case 'analysis-cancel': {
+          const label=id==='redes'||analysisProgress(id)===100?'Eliminar':'Cancelar';
+          modal(`${label} investigación`,'<p>¿Quieres eliminar este análisis?</p>',`${label} investigación`,()=>{
+            delete state.analyses[id];delete state.orders[id];
+            if(id==='redes')state.reportUnlocks=[];
+            if(id==='localizacao'){stopCityLookup();state.locationMap=emptyLocationMap();}
+            save();
+            if(id==='redes')go('servico/redes');else render();
+          },'btn danger');
+          break;
+        }
+        case 'map-detect': detectLocationCity(button);break;
+        case 'map-unlock': unlockLocationMap();break;
+        case 'map-point': selectMapPoint(Number(id));break;
+        case 'chat-start': startDetectiveChat();break;
+        case 'review': showReview(Number(id));break;
+        case 'profile-edit': modal('Editar perfil',`<label class="field">Nombre visible<input id="name-input" maxlength="36" value="${safe(state.name)}"></label>`,'Guardar',()=>{const value=document.querySelector('#name-input').value.trim();if(value){state.name=value;save();render();}});break;
+        case 'profile-share': modal('Compartir ahora','<p>Embajador</p>');break;
+        case 'claim-first-spy': {
+          if(state.firstSpyClaimed||!canClaimFirstSpy())break;
+          state.firstSpyClaimed=true;
+          state.credits+=10;
+          record('Primer caso',10);save();render();notify('Recompensa canjeada');
+          break;
+        }
+        case 'reset': modal('Restaurar panel','<p>¿Quieres restaurar el saldo y la XP iniciales y borrar las investigaciones?</p>','Restaurar',()=>{stopCityLookup();state=initial();save();go('painel');notify('Panel restaurado.');},'btn danger');break;
+        case 'signout': modal('Cerrar sesión','<p>¿Quieres volver a la pantalla de inicio de sesión?</p>','Cerrar sesión',closeAccount);break;
+        case 'auth-password': toggleAuthPassword(button);break;
+        case 'finish-welcome': finishWelcome();break;
+        case 'policy': policy(id);break;
+        case 'support': modal('Contactar con soporte','<p>Consulta las respuestas en el Centro de ayuda.</p>');break;
+      }
+    }
+    function normalizeIdentifier(id, input) {
+      if(!input)return null;
+      if(trackers[id].field==='phone'){
+        const number=input.replace(/^\+55\s*/, '').replace(/[\s()-]/g,'');
+        if(!/^\d{10,11}$/.test(number))return null;
+        return `(${number.slice(0,2)}) ${number.slice(2,-4)}-${number.slice(-4)}`;
+      }
+      const raw=input.trim();
+      if(id==='facebook'){
+        const url=raw.match(/^(?:https?:\/\/)?(?:(?:www|m)\.)?(?:facebook\.com|fb\.com)\/([a-z\d_.]{1,80})\/?(?:[?#].*)?$/i);
+        if(url)return `@${url[1]}`;
+      }
+      const name=raw.replace(/^@/,'');
+      return /^[a-zA-Z0-9_.]{1,30}$/.test(name)?`@${name}`:null;
+    }
+    function startAnalysis(id, input) {
+      if(analysisProgress(id)!==null)return false;
+      const spec=trackers[id];
+      const service=services.find(item=>item.id===id);
+      const identifier=normalizeIdentifier(id,input);
+      if((id==='instagram'||spec.field)&&!identifier)return false;
+      const cost=state.orders[id]==='ready'?0:serviceCost(service);
+      const xp=id==='localizacao'?30:10;
+      const start=()=>{
+        state.analyses[id]={handle:identifier||'',startedAt:Date.now(),boost:0};
+        if(id==='localizacao')state.locationMap=emptyLocationMap();
+        delete state.orders[id];
+        if(cost)gainXp(xp);
+        save();render();
+        if(cost)notify(`💸 Créditos gastados\n${state.unlimited?'Saldo ilimitado':`−${formatNumber.format(cost)} créditos`} | +${xp} XP`,'spend');
+      };
+      if(cost)confirmCredit(cost,service.name,start);
+      else start();
+      return true;
+    }
+    document.addEventListener('input',event=>{
+      if(event.target.matches('.auth-form input'))event.target.setCustomValidity('');
+      const form=event.target.closest('form[data-analysis]');
+      if(!form)return;
+      const valid=!!normalizeIdentifier(form.dataset.analysis,event.target.value);
+      form.querySelector('[type="submit"]').disabled=!valid;
+      if(valid){event.target.removeAttribute('aria-invalid');form.querySelector('#handle-error').hidden=true;}
+    });
+    document.addEventListener('invalid',event=>{
+      const input=event.target;
+      if(!input.matches('.auth-form input'))return;
+      if(input.validity.valueMissing)input.setCustomValidity('Completa este campo.');
+      else if(input.validity.typeMismatch)input.setCustomValidity('Introduce un correo electrónico válido.');
+      else if(input.validity.tooShort)input.setCustomValidity('Usa al menos 8 caracteres en la contraseña.');
+    },true);
+    document.addEventListener('change',event=>{
+      if(event.target.id!=='map-city'||event.target.value==='')return;
+      const city=mapCities[Number(event.target.value)];
+      if(!city)return;
+      stopCityLookup();
+      state.locationMap.city={...city,source:'manual'};
+      save();render();
+      document.querySelector('#map-city').focus();
+    });
+    document.addEventListener('submit',event=>{
+      const auth=event.target.closest('form[data-auth-form]');
+      if(auth){event.preventDefault();void submitLocalAuth(auth);return;}
+      const form=event.target.closest('form[data-analysis]');
+      if (!form) return;
+      event.preventDefault();
+      const input=form.querySelector('input');
+      if(startAnalysis(form.dataset.analysis,input?.value||'')||!input)return;
+      const error=form.querySelector('#handle-error');
+      error.textContent='Revisa los datos del perfil.';
+      error.hidden=false;
+      input.setAttribute('aria-invalid','true');
+      input.focus();
+    });
+    document.addEventListener('click',event=>{
+      const control=event.target.closest('[data-action]');
+      if(control){const [type,id]=control.dataset.action.split(':');handleAction(type,id,control);return;}
+      if(event.target===dialog)dialog.close();
+      const menu=document.querySelector('#menu');
+      if(menu&&!menu.hidden&&!menu.contains(event.target)){menu.hidden=true;document.querySelector('[data-action="menu"]').setAttribute('aria-expanded','false');}
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key!=='Escape')return;
+      const menu=document.querySelector('#menu');
+      if(menu&&!menu.hidden){menu.hidden=true;const button=document.querySelector('[data-action="menu"]');button.setAttribute('aria-expanded','false');button.focus();}
+    });
+    window.addEventListener('hashchange',()=>{stopCityLookup();stopDetectiveChat();if(dialog.open)dialog.close();render();window.scrollTo(0,0);});
+
+    const matrix=document.querySelector('#matrix');
+    for(let i=0;i<130;i++){
+      const char=document.createElement('span');
+      char.textContent='01ABCDFKMNQX245789'[i%18];
+      char.style.left=`${(i*137.53)%100}%`;
+      char.style.top=`${(i*42.72)%100}%`;
+      matrix.append(char);
+    }
+    const authMatrix=document.querySelector('#auth-matrix');
+    const matrixLetters='INSTAPROINSTAPRO';
+    for(let column=0;column<85;column++){
+      const stream=document.createElement('span');
+      stream.textContent=Array.from({length:160},(_,row)=>matrixLetters[(row*7+column*11+row%5)%matrixLetters.length]).join('\n');
+      stream.style.cssText=`--left:${column*1.2}%;--top:${-(column*43%470)}px;--opacity:${column%7===3?.28:column%4===1?.13:.06}`;
+      authMatrix.append(stream);
+    }
+    render();
+    setInterval(refreshProgress,1000);
+  </script>
+</body>
+</html>
