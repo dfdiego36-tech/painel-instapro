@@ -318,8 +318,9 @@
     const reportPhone='+55 00 00000-0000';
     const formatNumber = new Intl.NumberFormat('es', {useGrouping:'always'});
     const packages = [
-      {credits:5000, price:27},
-      {credits:10000, price:37, label:'MEJOR RELACIÓN CALIDAD-PRECIO'}
+  {credits:5000, price:27, link:'https://go.centerpag.com/PPU38CQHM8J'},
+  {credits:10000, price:37, label:'MEJOR RELACIÓN CALIDAD-PRECIO', link:'https://go.centerpag.com/PPU38CQHM8F'}
+];
     ];
     const detectivePlans = [
       {name:'Investigación básica',cost:700,tone:'basic',caption:'Infiltración digital completa',items:['Espionaje completo y manual de todas las redes sociales de la persona investigada','Creación de una cuenta falsa de WhatsApp para contactarle (con tu mismo código de área para evitar sospechas)','Creación de una cuenta falsa de Instagram con un perfil convincente','Creación de una cuenta falsa de Facebook para acercarse a la persona','Conversaciones por mensajes y prueba de fidelidad','Informe completo con capturas de pantalla y análisis']},
@@ -644,7 +645,7 @@
           <div class="pack-price">$ ${pack.price}</div>
           <div class="credit-count">${formatNumber.format(pack.credits)} <small>créditos</small></div>
           <ul><li>✓ Los créditos nunca caducan</li><li>✓ Acceso a todos los servicios</li></ul>
-          <button class="btn full" type="button">Comprar ahora</button>
+        <a href="${pack.link}" class="btn full" target="_blank">Comprar ahora</a>
         </article>`).join('')}</div>
         <div class="benefits"><span>${fakeCopy('🔒 Pago seguro')}</span><span>⚡ Créditos al instante</span><span>♾️ Nunca caducan</span></div>
         ${refundButton}
