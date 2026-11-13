@@ -207,6 +207,20 @@
     .dashboard-head .auth-nav a:hover{background:#ffffff14}
     .dashboard-head .auth-nav .signup-link{background:linear-gradient(105deg,#4934ae,#9144d8);color:#fff}
     .dashboard-head .auth-nav .signup-link:hover{filter:brightness(1.13)}
+    .refund-button{margin-top:12px}
+    .view>.refund-button{display:flex;width:fit-content;margin:16px auto 0}
+    .refund-form textarea{width:100%;min-height:100px;background:#0b0c11;color:var(--text);padding:9px 11px;border:1px solid #373145;border-radius:8px;font:inherit;resize:vertical}
+    .refund-form>.btn{margin-top:12px}
+    .refund-feedback{text-align:center}
+    .refund-feedback h2{display:grid;justify-items:center;gap:12px;margin:0}
+    .refund-feedback .actions{justify-content:center}
+    .refund-spinner,.refund-check{display:grid;place-items:center;width:48px;height:48px;border-radius:50%}
+    .refund-spinner{border:3px solid #49365f;border-top-color:#bf94ff;animation:refund-spin .75s linear infinite}
+    .refund-check{background:#173e2c;color:#67e9a4;animation:refund-check-in .24s ease-out both}
+    .refund-check svg{width:28px;height:28px}
+    @keyframes refund-spin{to{transform:rotate(360deg)}}
+    @keyframes refund-check-in{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+    @media(prefers-reduced-motion:reduce){.refund-spinner,.refund-check{animation:none}}
     @media(max-width:385px){.dashboard-head{gap:6px}.dashboard-head .brand{font-size:15px}.dashboard-head .auth-nav{gap:2px}.dashboard-head .auth-nav a{padding-inline:6px}.dashboard-head .icon-btn{width:30px}}
   </style>
 </head>
@@ -257,10 +271,10 @@
     ];
     const trackers = {
       instagram: {start:2,minutes:7200,marks:[1,18,38,55,72,100],steps:['Perfil encontrado','Accediendo al feed y a las historias...','Recuperando mensajes privados...','Analizando la lista de acosadores...','Identificando los Me gusta ocultos...','Generando el informe completo...'],notice:'Análisis en curso',compact:true,cancelOutside:true},
-      whatsapp: {start:1,minutes:7200,steps:['Conectando al servidor seguro...','Accediendo a conversaciones cifradas...','Sincronizando los mensajes y el historial...','Descargando archivos multimedia (fotos, videos y audios)...','Analizando contactos y grupos...','Generando el informe final...'],title:'Investigando WhatsApp',notice:'Investigación en curso',noticeColor:'#23ce73',field:'phone',tip:'Introduce el número con el código de área.',features:[['Conversaciones','Historial completo, incluidos los mensajes borrados.'],['Multimedia','Fotos, videos, audios y documentos compartidos.'],['Llamadas','Llamadas de voz y video con hora y duración.']]},
+      whatsapp: {start:1,minutes:7200,steps:['Conectando al servidor seguro...','Accediendo a conversaciones cifradas...','Sincronizando los mensajes y el historial...','Descargando archivos multimedia (fotos, videos y audios)...','Analizando contactos y grupos...','Generando el informe final...'],title:'Investigando WhatsApp',notice:'Investigación en curso',noticeColor:'#23ce73',field:'phone',features:[['Conversaciones','Historial completo, incluidos los mensajes borrados.'],['Multimedia','Fotos, videos, audios y documentos compartidos.'],['Llamadas','Llamadas de voz y video con hora y duración.']]},
       facebook: {start:1,minutes:7200,steps:['Verificando el perfil…','Preparando publicaciones…','Analizando interacciones…','Preparando conversaciones…','Organizando actividades…','Generando el informe final…'],title:'Investigando Facebook',field:'profile'},
       localizacao: {start:8,minutes:20,marks:[3,7,28,55,84,100],steps:['Iniciando el rastreo...','Conectando al celular de la persona investigada...','Identificando los lugares que frecuenta...','Identificando lugares sospechosos...','Analizando patrones de movimiento...','Generando el informe de ubicación...'],title:'Rastreo activo',caption:'Detectando la ubicación...',notice:'Análisis en curso',compact:true,warm:true},
-      sms: {start:1,minutes:7200,steps:['Conectando…','Preparando mensajes…','Sincronizando el historial…','Analizando conversaciones…','Generando el informe final…'],title:'Investigando SMS',field:'phone',tip:'Introduce el número con el código de área.',features:[['MENSAJES','Historial completo, incluidos los mensajes eliminados.'],['CÓDIGOS','Códigos de verificación de aplicaciones y servicios.']]},
+      sms: {start:1,minutes:7200,steps:['Conectando…','Preparando mensajes…','Sincronizando el historial…','Analizando conversaciones…','Generando el informe final…'],title:'Investigando SMS',field:'phone',features:[['MENSAJES','Historial completo, incluidos los mensajes eliminados.'],['CÓDIGOS','Códigos de verificación de aplicaciones y servicios.']]},
       chamadas: {start:1,minutes:7200,steps:['Conectando…','Preparando el historial de llamadas…','Organizando las llamadas…','Analizando la duración y los contactos…','Generando el informe final…'],title:'Historial de llamadas',field:'phone',features:[['Historial','Llamadas recibidas y realizadas.'],['Duración','Duración exacta de cada llamada.'],['Contactos','Números a los que más se llama.']]},
       camera: {start:1,minutes:4320,steps:['Conectando al dispositivo...','Activando la cámara frontal...','Configurando la transmisión...','Capturando video en directo...','Guardando grabaciones...'],title:'Acceso a la cámara y a la galería',caption:'Conectando...',notice:'Acceso en curso',noticeColor:'#aa36be'},
       redes: {start:10,minutes:10,marks:[5,27,46,66,84,100],steps:['Verificando los datos...','Buscando en 47 plataformas...','Analizando redes sociales...','Verificando aplicaciones de citas...','Buscando contenido para adultos...','Recopilando los resultados...'],title:'Buscando en 47 plataformas',caption:'Analizando perfiles...',notice:'Búsqueda completa en varias plataformas',roomy:true,inlineBoost:true,cancelOutside:true,field:'profile'}
@@ -457,6 +471,7 @@
     const safe = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const brand = `<a class="brand" href="#painel" aria-label="Insta Pro, volver al panel">${icon('logo')}Insta <strong>Pro</strong></a>`;
     const fakeCopy = text => ` ${text}`;
+    const refundButton = `<button class="btn secondary refund-button" type="button" data-action="refund">${fakeCopy('Solicitar reembolso')}</button>`;
     const bar = (value, label) => `<div class="bar" role="progressbar" aria-label="${label}" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100"><span style="width:${value}%"></span></div>`;
     const serviceButton = (id, label, kind='btn') => `<button class="${kind}" type="button" data-action="service:${id}">${label}</button>`;
     const menuLink = (link, name, glyph) => `<a role="menuitem" href="#${link}">${icon(glyph)} ${name}</a>`;
@@ -520,6 +535,39 @@
       approve = action;
       dialog.innerHTML = `<button class="icon-btn close" data-action="close" aria-label="Cerrar">${icon('close')}</button><h2 id="dialog-title">${title}</h2>${body}<div class="actions">${label ? `<button type="button" class="${kind}" data-action="approve">${label}</button>` : ''}<button class="btn secondary" type="button" data-action="close">${label ? 'Cancelar' : 'Cerrar'}</button></div>`;
       if (!dialog.open) dialog.showModal();
+    }
+    function showRefundForm() {
+      modal(fakeCopy('Solicitar reembolso'),`
+        <form class="refund-form" data-refund-form>
+          <label class="field">Nombre completo
+            <input name="fullName" autocomplete="name" maxlength="100" required autofocus>
+          </label>
+          <label class="field">Correo electrónico
+            <input name="email" type="email" autocomplete="email" maxlength="254" required>
+          </label>
+          <label class="field">Motivo del reembolso
+            <textarea name="reason" rows="4" maxlength="1000" required></textarea>
+          </label>
+          <p role="alert" hidden>Completa todos los campos.</p>
+          <button class="btn full" type="submit">Enviar solicitud</button>
+        </form>`);
+    }
+    function showRefundConfirmation() {
+      modal(`<span class="refund-spinner" aria-hidden="true"></span>${fakeCopy('Procesando solicitud…')}`,'');
+      dialog.className='refund-feedback';
+      const loadingTitle=dialog.querySelector('#dialog-title');
+      loadingTitle.tabIndex=-1;
+      loadingTitle.focus();
+
+      setTimeout(()=>{
+        if(!dialog.open||!dialog.contains(loadingTitle))return;
+        modal(`<span class="refund-check" aria-hidden="true">${icon('check')}</span>${fakeCopy('Reembolso aprobado')}`,
+          `<p>${fakeCopy('Recibirás el importe de tu compra en unas horas.')}</p>`);
+        dialog.className='refund-feedback';
+        const approvedTitle=dialog.querySelector('#dialog-title');
+        approvedTitle.tabIndex=-1;
+        approvedTitle.focus();
+      },1100);
     }
     function confirmCredit(cost, name, action, purpose='iniciar esta investigación') {
       if (!hasCredit(cost)) {
@@ -585,6 +633,7 @@
       const contractLabels={camera:'Dispositivo investigado',redes:'47 redes sociales',localizacao:'Rastreo GPS'};
       const contracts=[...activeIds].filter(id=>trackers[id]).map(id=>contract(id,safe(contractLabels[id]||state.analyses[id]?.handle||trackers[id].title||'Investigación'),analysisProgress(id)));
       return `<section class="hero" aria-label="Resumen de la cuenta"><span class="welcome">${icon('spark')} ¡Bienvenido!</span><h1>¡Hola, ${safe(state.name)}! 👋</h1><p>Elige un servicio y comienza tu investigación</p><div class="hero-level">Niv. ${n}<small>Nivel</small></div><div class="stats"><div class="stat"><span class="stat-label">${icon('bolt')} Créditos</span><a class="plus" href="#creditos" aria-label="Comprar créditos"><span style="display:grid;place-items:center;height:100%">+</span></a><strong>${balance()}</strong></div><div class="stat"><span class="stat-label">${icon('spark')} XP</span><div class="xp-count">${target?`${gained} / ${target}`:`${state.xp} XP`}</div>${bar(percent,'XP del nivel')}</div></div></section>
+      ${refundButton}
       <section><h2 class="section-title">${icon('check')} Servicios contratados</h2><div class="contracts">${contracts.join('') || '<p class="empty">Tus servicios contratados aparecerán aquí.</p>'}</div></section>
       <section><h2 class="section-title">${icon('flame')} Servicios disponibles</h2><div class="cards">${services.map(service=>{const [status,tone]=serviceStatus(service); return serviceButton(service.id,`<span class="service-icon">${icon(service.id)}</span><h3>${service.name}</h3><p>${fakeCopy(service.description)}</p><span class="badge ${tone}">${status}</span>`,'card').replace('class="card"',`class="card" style="--accent:${service.color}"`);}).join('')}</div></section>`;
     }
@@ -598,6 +647,7 @@
           <button class="btn full" type="button">Comprar ahora</button>
         </article>`).join('')}</div>
         <div class="benefits"><span>${fakeCopy('🔒 Pago seguro')}</span><span>⚡ Créditos al instante</span><span>♾️ Nunca caducan</span></div>
+        ${refundButton}
       </div>`;
     }
     function serviceHeading(service, title, caption) {
@@ -617,8 +667,8 @@
       const captions={instagram:'Descubre seguidores ocultos, conversaciones, acosadores y mucho más.',localizacao:'Consulta la ubicación del celular en tiempo real',chamadas:'Consulta los registros completos de llamadas.',whatsapp:'Monitorea conversaciones, archivos multimedia y llamadas con actualizaciones constantes.',camera:'Ve la cámara y todas las fotos del dispositivo',sms:'Accede al historial completo de mensajes.',facebook:'Investigación de un perfil de Facebook'};
       const caption=captions[id]?fakeCopy(captions[id]):'';
       const label=phone?'Número de teléfono de la persona investigada':instagram?'Introduce el nombre de usuario (sin la @)':id==='facebook'?'Pega la URL del perfil (facebook.com/username)':'Nombre de usuario del perfil';
-      const placeholder=phone?'11987654321':instagram?'lucas_silva10':id==='facebook'?label:'nombre_usuario';
-      const tip=instagram?'escribe el nombre tal como aparece en Instagram. No hace falta incluir la @, mayúsculas ni espacios.':spec.tip;
+      const placeholder=phone?'Número de teléfono':instagram?'lucas_silva10':id==='facebook'?label:'nombre_usuario';
+      const tip=phone?'Introduce el número completo. Puedes incluir el código de país con +.':instagram?'escribe el nombre tal como aparece en Instagram. No hace falta incluir la @, mayúsculas ni espacios.':'';
       const cost=serviceCost(service);
       const action=gps?'Iniciar rastreo':instagram?'Iniciar investigación':id==='camera'?`Activar cámara por ${cost} créditos`:['chamadas','facebook','redes'].includes(id)&&state.orders[id]!=='ready'?`Iniciar investigación por ${cost} créditos`:'Iniciar investigación';
       const entryInfo={
@@ -629,7 +679,7 @@
       return `<div class="service-entry${spec.compact?' compact':''}${gps?' location-entry':''}" style="--accent:${instagram?'#b358ff':color}"><section class="panel">
         <div class="service-heading" style="--accent:${color}">${serviceHeading(service,title,caption)}</div>
         ${entryInfo}
-        <form data-analysis="${id}" novalidate>${requiresInput?`<label class="entry-label" for="analysis-handle">${label}</label><div class="entry-input">${id==='facebook'?'':`<span>${phone?'+55':'@'}</span>`}<input id="analysis-handle" name="handle" type="${phone?'tel':'text'}" placeholder="${placeholder}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="${id==='facebook'?120:phone?22:31}" required aria-describedby="handle-error"></div><p class="validation" id="handle-error" role="alert" hidden></p>`:''}
+        <form data-analysis="${id}" novalidate>${requiresInput?`<label class="entry-label" for="analysis-handle">${label}</label><div class="entry-input">${phone||id==='facebook'?'':'<span>@</span>'}<input id="analysis-handle" name="handle" type="${phone?'tel':'text'}" placeholder="${placeholder}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="${id==='facebook'?120:31}" required aria-describedby="handle-error"></div><p class="validation" id="handle-error" role="alert" hidden></p>`:''}
         <button class="btn action-primary full" type="submit"${requiresInput?' disabled':''}>${gps?icon('localizacao'):''} ${action}</button></form>
         ${instagram?'<p class="entry-footnote">🎉 Investigación gratuita, sin gastar créditos.</p>':spec.features?`<div class="entry-features">${spec.features.map(([name,description])=>`<article><b>${name.toUpperCase()}</b><p>${fakeCopy(description)}</p></article>`).join('')}</div>`:''}
         ${id==='facebook'?'<div class="entry-info"><strong>✓ Formatos admitidos:</strong><p>• facebook.com/username<br>• fb.com/username<br>• m.facebook.com/username</p></div>':''}
@@ -1190,6 +1240,7 @@
         case 'close': dialog.close();break;
         case 'approve': {const action=approve;approve=undefined;dialog.close();action?.();break;}
         case 'service': go(`servico/${id}`);break;
+        case 'refund': showRefundForm();break;
         case 'report-unlock': unlockReport(id);break;
         case 'report-more': modal('Sin cuentas en otras 24 plataformas',`<ul class="report-more-list">${otherReportApps.map(name=>`<li>${name}</li>`).join('')}</ul>`);break;
         case 'plan': {const plan=detectivePlans[Number(id)];confirmCredit(plan.cost,plan.name,()=>{state.plans.push(plan.name);gainXp(10);save();render();notify(fakeCopy('Plan contratado.'));});break;}
@@ -1236,12 +1287,11 @@
     }
     function normalizeIdentifier(id, input) {
       if(!input)return null;
-      if(trackers[id].field==='phone'){
-        const number=input.replace(/^\+55\s*/, '').replace(/[\s()-]/g,'');
-        if(!/^\d{10,11}$/.test(number))return null;
-        return `(${number.slice(0,2)}) ${number.slice(2,-4)}-${number.slice(-4)}`;
-      }
       const raw=input.trim();
+      if(trackers[id].field==='phone'){
+        const number=raw.replace(/[\s().-]/g,'');
+        return /^\+?\d{7,15}$/.test(number)?raw.replace(/\s+/g,' '):null;
+      }
       if(id==='facebook'){
         const url=raw.match(/^(?:https?:\/\/)?(?:(?:www|m)\.)?(?:facebook\.com|fb\.com)\/([a-z\d_.]{1,80})\/?(?:[?#].*)?$/i);
         if(url)return `@${url[1]}`;
@@ -1294,6 +1344,18 @@
       document.querySelector('#map-city').focus();
     });
     document.addEventListener('submit',event=>{
+      const refund=event.target.closest('form[data-refund-form]');
+      if(refund){
+        event.preventDefault();
+        const empty=[refund.elements.fullName,refund.elements.reason].find(field=>!field.value.trim());
+        if(empty){
+          refund.querySelector('[role="alert"]').hidden=false;
+          empty.focus();
+          return;
+        }
+        showRefundConfirmation();
+        return;
+      }
       const auth=event.target.closest('form[data-auth-form]');
       if(auth){event.preventDefault();void submitLocalAuth(auth);return;}
       const form=event.target.closest('form[data-analysis]');
@@ -1302,7 +1364,7 @@
       const input=form.querySelector('input');
       if(startAnalysis(form.dataset.analysis,input?.value||'')||!input)return;
       const error=form.querySelector('#handle-error');
-      error.textContent='Revisa los datos del perfil.';
+      error.textContent=input.type==='tel'?'Introduce un número de teléfono válido.':'Revisa los datos del perfil.';
       error.hidden=false;
       input.setAttribute('aria-invalid','true');
       input.focus();
