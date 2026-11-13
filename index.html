@@ -460,7 +460,7 @@
     const balance = () => state.unlimited ? '∞' : formatNumber.format(state.credits);
     const safe = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const brand = `<a class="brand" href="#painel" aria-label="Insta Pro, volver al panel">${icon('logo')}Insta <strong>Pro</strong></a>`;
-    const fakeCopy = text => `(fake) ${text}`;
+    const fakeCopy = text => ` ${text}`;
     const bar = (value, label) => `<div class="bar" role="progressbar" aria-label="${label}" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100"><span style="width:${value}%"></span></div>`;
     const serviceButton = (id, label, kind='btn') => `<button class="${kind}" type="button" data-action="service:${id}">${label}</button>`;
     const menuLink = (link, name, glyph) => `<a role="menuitem" href="#${link}">${icon(glyph)} ${name}</a>`;
@@ -628,7 +628,7 @@
         <button class="btn action-primary full" type="submit"${requiresInput?' disabled':''}>${gps?icon('localizacao'):''} ${action}</button></form>
         ${instagram?'<p class="entry-footnote">🎉 Investigación gratuita, sin gastar créditos.</p>':spec.features?`<div class="entry-features">${spec.features.map(([name,description])=>`<article><b>${name.toUpperCase()}</b><p>${fakeCopy(description)}</p></article>`).join('')}</div>`:''}
         ${id==='facebook'?'<div class="entry-info"><strong>✓ Formatos admitidos:</strong><p>• facebook.com/username<br>• fb.com/username<br>• m.facebook.com/username</p></div>':''}
-        ${id==='redes'?'<a class="report-preview-link" href="#relatorio/redes">(fake) Ver informe</a>':''}
+        ${id==='redes'?'<a class="report-preview-link" href="#relatorio/redes"> Ver informe</a>':''}
       </section></div>`;
     }
     function trackingContent(service, progress) {
@@ -686,7 +686,7 @@
       const unlocked=state.reportUnlocks.includes(id);
       return `<section class="report-panel report-section ${offer.theme}">
         <h3>${offer.symbol} ${offer.name}</h3>
-        <p class="report-banner">(fake) ⚠ <b>${description}</b> ${id==='adult'?'asociadas':'asociados'} al número ${reportPhone}</p>
+        <p class="report-banner"> ⚠ <b>${description}</b> ${id==='adult'?'asociadas':'asociados'} al número ${reportPhone}</p>
         <div class="report-grid ${id}">${platforms.map(platform=>reportApp(platform,{unlocked})).join('')}</div>
         <div class="report-offer"><b>${offer.symbol} Paquete completo</b><p>${platforms.map(([name])=>name).join(' + ')}</p>
           ${unlocked?'<span class="report-unlocked">✓ Registros desbloqueados</span>':''}
@@ -714,7 +714,7 @@
       const ashleyLink=state.reportUnlocks.includes('ashley')
         ? `<a class="report-heading report-site-link" ${reportSiteAttributes('Ashley Madison')}>${ashleyHeading}</a>`
         : `<div class="report-heading">${ashleyHeading}</div>`;
-      return `<div class="net-report" aria-label="(fake) Informe de otras redes">
+      return `<div class="net-report" aria-label=" Informe de otras redes">
         <section class="report-panel search-data">
           <div class="report-heading"><span class="report-symbol">${icon('user')}</span><div><h2>${fakeCopy('Datos de la búsqueda')}</h2><p class="report-muted">${fakeCopy('Información utilizada para rastrear')}</p></div></div>
           <div class="report-fields">${sampleFields.map(([glyph,label,value,color])=>`<div class="report-field" style="--field-color:${color}">${icon(glyph)}<div><span>${label}</span><b>${value}</b></div></div>`).join('')}</div>
@@ -722,14 +722,14 @@
         <section class="report-counts" aria-label="Resumen de la búsqueda">${counts.map(([count,label,color,background,border])=>`<div class="report-count" style="--count-color:${color};--count-bg:${background};--count-border:${border}"><strong>${count}</strong><span>${fakeCopy(label)}</span></div>`).join('')}</section>
         <section class="report-section">
           <h2>${fakeCopy('📱 Redes sociales encontradas')}</h2>
-          <p class="report-banner">(fake) ✅ <b>Perfiles confirmados</b> asociados al número ${reportPhone}</p>
+          <p class="report-banner"> ✅ <b>Perfiles confirmados</b> asociados al número ${reportPhone}</p>
           <div class="report-grid social">${reportApps.social.map(platform=>reportApp(platform)).join('')}</div>
         </section>
         ${reportOfferSection('dating','4 perfiles encontrados')}
         ${reportOfferSection('adult','3 cuentas encontradas')}
         <section class="report-panel report-ashley rose" aria-label="Ashley Madison">
           ${ashleyLink}
-          <p class="report-banner">(fake) 🔍 <b>Perfil encontrado</b> - Asociado al número ${reportPhone}</p>
+          <p class="report-banner"> 🔍 <b>Perfil encontrado</b> - Asociado al número ${reportPhone}</p>
           ${reportUnlockButton('ashley')}
         </section>
         <section class="report-section">
@@ -873,14 +873,14 @@
       return `<div class="detective">
         <section class="panel det-hero"><div class="det-icon">${icon('user')}</div><h2>Detective privado profesional</h2><p>${fakeCopy('Investigación real con personas reales')}</p><div class="det-chips"><span class="badge ok">${fakeCopy('Investigación real')}</span><span class="badge">${fakeCopy('100% Confidencial')}</span></div><div class="det-ribbon">${fakeCopy('💎 Nuestro servicio más completo y profesional')}</div></section>
         <section class="panel"><h3>🎯 Cómo funciona la investigación</h3>${numbered(detectiveSteps)}<div class="det-ribbon">${fakeCopy('📱 Puedes seguir todo en tiempo real por el WhatsApp del detective')}</div></section>
-        <section class="det-section" aria-labelledby="det-pratica"><div class="det-section-title det-practice-title"><h3 id="det-pratica">${icon('sms')} Mira cómo funciona en la práctica</h3></div>${detectivePhone()}<div class="det-ribbon det-practice-note">(fake) <b>Técnica profesional:</b> El detective usa un perfil falso convincente y aplica técnicas psicológicas para poner a prueba la fidelidad de la persona investigada</div></section>
+        <section class="det-section" aria-labelledby="det-pratica"><div class="det-section-title det-practice-title"><h3 id="det-pratica">${icon('sms')} Mira cómo funciona en la práctica</h3></div>${detectivePhone()}<div class="det-ribbon det-practice-note"> <b>Técnica profesional:</b> El detective usa un perfil falso convincente y aplica técnicas psicológicas para poner a prueba la fidelidad de la persona investigada</div></section>
         <section class="det-section"><div class="det-section-title"><h3>Elige tu investigación</h3><p>${fakeCopy('Cuanto más completa sea la investigación, más posibilidades tendrás de obtener todas las pruebas')}</p></div>${detectivePlans.map((plan,i)=>`<article class="panel det-plan ${plan.tone}">${plan.tag?`<span class="badge plan-tag">${plan.tone==='advanced'?fakeCopy(plan.tag):plan.tag}</span>`:''}<div class="row spread"><div><h3>${plan.name}</h3><p>${fakeCopy(plan.caption)}</p></div><div class="price">${plan.cost}<small>créditos</small></div></div>${plan.includes?`<div class="det-ribbon">${plan.includes}</div>`:''}<ul class="det-features">${plan.items.map(item=>`<li>${icon('check')} ${fakeCopy(item)}</li>`).join('')}</ul>${plan.note?`<div class="det-ribbon">${fakeCopy(plan.note)}</div>`:''}<button class="btn full" data-action="plan:${i}">Contratar ${plan.name}</button></article>`).join('')}</section>
-        ${state.plans.length?`<section class="panel"><h3>(fake) Planes contratados</h3><div class="list-rows">${state.plans.map(plan=>`<div>${safe(savedLabel(plan))}</div>`).join('')}</div></section>`:''}
+        ${state.plans.length?`<section class="panel"><h3> Planes contratados</h3><div class="list-rows">${state.plans.map(plan=>`<div>${safe(savedLabel(plan))}</div>`).join('')}</div></section>`:''}
         <section class="det-section"><div class="det-section-title"><h2>Qué incluye el servicio</h2><p>${fakeCopy('Todo lo que necesitas para descubrir la verdad')}</p></div><div class="det-included">${included.map(([glyph,label,caption])=>`<article><div class="det-icon">${icon(glyph)}</div><strong>${fakeCopy(label)}</strong><small>${caption}</small></article>`).join('')}</div></section>
-        <section class="panel det-green"><div class="row spread"><h3>${icon('bolt')} ¿Cómo funciona?</h3><span class="badge ok">${fakeCopy('⚡ INICIO INMEDIATO')}</span></div><div class="det-ribbon">${fakeCopy('🚀 La investigación comienza AHORA')}</div><p class="space">(fake) En cuanto contrates el servicio, el detective se pondrá en contacto para recopilar información sobre tu pareja y <strong>comenzará de inmediato</strong></p>${numbered(orderStages)}<p class="space">${fakeCopy('✓ La investigación continúa hasta que estés 100 % satisfecho')}</p></section>
+        <section class="panel det-green"><div class="row spread"><h3>${icon('bolt')} ¿Cómo funciona?</h3><span class="badge ok">${fakeCopy('⚡ INICIO INMEDIATO')}</span></div><div class="det-ribbon">${fakeCopy('🚀 La investigación comienza AHORA')}</div><p class="space"> En cuanto contrates el servicio, el detective se pondrá en contacto para recopilar información sobre tu pareja y <strong>comenzará de inmediato</strong></p>${numbered(orderStages)}<p class="space">${fakeCopy('✓ La investigación continúa hasta que estés 100 % satisfecho')}</p></section>
         <section class="det-section det-faq"><div class="det-section-title"><h2>Preguntas frecuentes</h2><p>Resuelve tus dudas sobre el servicio</p></div>${detectiveQuestions.map(([q,a])=>`<details><summary>${q}</summary><p>${fakeCopy(a)}</p></details>`).join('')}</section>
-        <section class="panel det-green center"><div class="det-icon">${icon('check')}</div><span class="badge ok">${fakeCopy('✓ GARANTIZADO')}</span><h3>${fakeCopy('100 % garantizado')}</h3><p>(fake) Si no conseguimos contactar con la persona o recopilar información relevante en <strong>15 días</strong>, te devolvemos <strong>el 100 % de los créditos</strong>.</p><p>${fakeCopy('🎯 Tasa de éxito: 98%')}</p></section>
-        <section class="det-review" aria-label="(fake) Carrusel de testimonios"><p>(fake) <span class="rating">⭐⭐⭐⭐⭐</span> <span class="muted">Valoración de 4,9/5 • +2.847 clientes</span></p><div id="det-review-copy" aria-live="polite"><blockquote>${fakeCopy(detectiveReviews[review][0])}</blockquote><cite>${detectiveReviews[review][1]}</cite></div><div class="det-dots">${detectiveReviews.map((_,i)=>`<button data-action="review:${i}" aria-label="Testimonio ${i+1}" aria-current="${i===review}"></button>`).join('')}</div></section>
+        <section class="panel det-green center"><div class="det-icon">${icon('check')}</div><span class="badge ok">${fakeCopy('✓ GARANTIZADO')}</span><h3>${fakeCopy('100 % garantizado')}</h3><p> Si no conseguimos contactar con la persona o recopilar información relevante en <strong>15 días</strong>, te devolvemos <strong>el 100 % de los créditos</strong>.</p><p>${fakeCopy('🎯 Tasa de éxito: 98%')}</p></section>
+        <section class="det-review" aria-label=" Carrusel de testimonios"><p> <span class="rating">⭐⭐⭐⭐⭐</span> <span class="muted">Valoración de 4,9/5 • +2.847 clientes</span></p><div id="det-review-copy" aria-live="polite"><blockquote>${fakeCopy(detectiveReviews[review][0])}</blockquote><cite>${detectiveReviews[review][1]}</cite></div><div class="det-dots">${detectiveReviews.map((_,i)=>`<button data-action="review:${i}" aria-label="Testimonio ${i+1}" aria-current="${i===review}"></button>`).join('')}</div></section>
       </div>`;
     }
     function detectiveChatMoment(elapsed) {
@@ -892,8 +892,8 @@
     }
     function detectivePhone() {
       const moment=detectiveChatMoment(chatStartedAt===null?-1:Date.now()-chatStartedAt);
-      return `<div class="det-phone" id="detective-phone" tabindex="-1" aria-label="(fake) Conversación">
-        <div class="det-phone-head"><span class="det-contact" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/></svg></span><div><strong>(fake) Persona investigada</strong><small>En línea</small></div></div>
+      return `<div class="det-phone" id="detective-phone" tabindex="-1" aria-label=" Conversación">
+        <div class="det-phone-head"><span class="det-contact" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/></svg></span><div><strong> Persona investigada</strong><small>En línea</small></div></div>
         <div class="det-chat" id="det-chat"><div class="det-message-list" id="det-messages" role="log" aria-label="Mensajes de la conversación" aria-live="polite">
           ${detectiveMessages.map(({side,text,time,emphasis},index)=>{const copy=safe(index>=8?fakeCopy(text):text);return `<div class="det-bubble ${side}" data-chat-message${index>=moment.count?' hidden':''}>${emphasis?`<strong>${copy}</strong>`:copy}<time>${time}</time></div>`;}).join('')}
           <div id="det-typing" class="det-bubble det-typing ${moment.typing||''}" role="status" aria-label="Escribiendo"${moment.typing?'':' hidden'}><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i></div>
@@ -1174,7 +1174,7 @@
       if(id==='localizacao'&&progress>=64)document.querySelector('.accelerate').hidden=false;
     }
     function policy(id) {
-      const policies={termos:['Términos de uso','La marca «(fake)» indica que el servicio se representa dentro del panel. Los créditos son de uso interno.'],privacidade:['Política de privacidad y cookies','El nombre, el correo electrónico, el verificador de la contraseña y los datos de cada panel se guardan en este navegador. Si eliges detectar la ciudad, el navegador consulta GeoJS con la IP de la conexión. Si hace falta, Open-Meteo recibe el nombre de la ciudad y el país para localizar el centro de la ciudad. El panel guarda la ciudad y el centro elegidos y los muestra con OpenStreetMap.'],lgpd:['LGPD','El botón Restaurar panel, en el perfil, elimina el historial del panel y restaura el saldo y los datos iniciales.']};
+      const policies={termos:['Términos de uso','La marca «» indica que el servicio se representa dentro del panel. Los créditos son de uso interno.'],privacidade:['Política de privacidad y cookies','El nombre, el correo electrónico, el verificador de la contraseña y los datos de cada panel se guardan en este navegador. Si eliges detectar la ciudad, el navegador consulta GeoJS con la IP de la conexión. Si hace falta, Open-Meteo recibe el nombre de la ciudad y el país para localizar el centro de la ciudad. El panel guarda la ciudad y el centro elegidos y los muestra con OpenStreetMap.'],lgpd:['LGPD','El botón Restaurar panel, en el perfil, elimina el historial del panel y restaura el saldo y los datos iniciales.']};
       const [title,body]=policies[id];
       modal(title,`<p>${body}</p>`);
     }
